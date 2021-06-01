@@ -14,7 +14,6 @@ class Film:
     @duur.setter
     def duur(self,duur):
         if type(duur)==int :
-            print ("hierist")
             self._duur=duur
         else :
             raise ValueError
