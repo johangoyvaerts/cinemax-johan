@@ -11,4 +11,4 @@ print (nieuwe_film.duur)
 nieuwe_film.knt="f"
 print (nieuwe_film.knt)
 print (nieuwe_film)
-print (nieuwe_film.duurtijd())
+print (nieuwe_film.duurtijd)

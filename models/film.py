@@ -28,13 +28,16 @@ class Film:
             self._knt=knt.upper()
         else :
             raise ValueError
-
-    def __str__(self):
-        return f"de titel van deze film is {self.titel} en duurt {self.duur}min"
-
+    @property
     def duurtijd (self):
         uren= int(self.duur/60)
         min=int(self.duur%60)
         return f"{uren} h {min} min"
+    
+    
+    def __str__(self):
+        return f"de titel van deze film is {self.titel} en duurt {self.duurtijd}"
+
+ 
         
              
