@@ -26,7 +26,8 @@ CREATE TABLE IF NOT EXISTS vertoningen(
 CREATE TABLE IF NOT EXISTS tickets(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     datum TEXT NOT NULL,
-    prijs REAL NOT NULL,
+    prijs_volw REAL NOT NULL,
+    prijs_kind REAL NOT NULL,
     aant_volw INTEGER NOT NULL,  
     aant_kind INTEGER NOT NULL,
     vertoningen_id INTEGER,

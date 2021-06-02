@@ -7,12 +7,12 @@ VERT_ACT = ["AC", "NA"]
 
 
 class Vertoningen:
-    def __init__(self, zaal, uur, drie_d, vertoning_actief, film_id) :
+    def __init__(self, zaal, uur, drie_d, vertoning_actief, film) :
         self._zaal = zaal
         self._uur = uur 
         self._drie_d= drie_d
         self._vertoning_actief= vertoning_actief
-        self.film_id=film_id
+        self._film=film
     
     @property
     def zaal (self) :
@@ -69,13 +69,22 @@ class Vertoningen:
             self._vertoning_actief = vertoning_actief.upper()
         else :
             raise ValueError
-"""   
+
     @property
-    def uur (self):
-        return self._uur
+    def film (self) :
+        return self._film
 
-    @uur.setter
-    pass
-"""
+    #de film in de klasse vertoningen moet bij de classe film horen
+    @film.setter
+    def film(self, film):
+        if isinstance(film, Film) :
+            self._film = film
+        else :
+            raise ValueError
 
-
+    
+    def __str__(self) :
+        if self.vertoning_actief=="AC":
+            return  f"'{self.film.titel}' in zaal {self.zaal} om {self.uur}, duurtijd : {self.film.duurtijd}"
+        else :
+            return  f"'{self.film.titel}' in zaal {self.zaal} om {self.uur} speelt niet"

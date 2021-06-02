@@ -32,11 +32,11 @@ class Film:
     def duurtijd (self):
         uren= int(self.duur/60)
         min=int(self.duur%60)
-        return f"{uren} h {min} min"
+        return f"{uren}h {min}min"
     
     
     def __str__(self):
-        return f"de titel van deze film is '{self.titel}' en duurt {self.duurtijd}"
+        return f"'{self.titel.upper()}' duur: {self.duurtijd}"
 
  
         
