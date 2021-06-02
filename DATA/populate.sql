@@ -1,23 +1,23 @@
 -- SQLite
 
 INSERT INTO films (titel, duur, knt, MDB_id)
-VALUES ("Emma Stone and Emma Thompson answer fan questions", 205, "F","vi80592921"),
-    ("The Unholy", 99, "F", "tt9419056"),
-    ("Seven", 127, "T", "tt0114369"),
-    ("Cruella", 134, "F", "tt3228774"),
-    ("100% Wolf", 96, "F", "tt8774798"),
-    ("The Conjuring: The Devil Made Me Do It",112,"T","tt7069210"),
-    ("Army of the Dead", 148, "F","tt0993840")
+VALUES ("Emma Stone and Emma Thompson answer fan questions", 205, "KT","vi80592921"),
+    ("The Unholy", 99, "KT", "tt9419056"),
+    ("Seven", 127, "KNT", "tt0114369"),
+    ("Cruella", 134, "KT", "tt3228774"),
+    ("100% Wolf", 96, "KT", "tt8774798"),
+    ("The Conjuring: The Devil Made Me Do It",112,"KT","tt7069210"),
+    ("Army of the Dead", 148, "KT","tt0993840")
 ;  
 
 INSERT INTO vertoningen (zaal, uur, drie_d, vertoning_actief, films_id)
-VALUES (2,"1300", "F", "F", 3),
-    (1, "1500", "F", "T", 1),
-    (2, "2200", "F", "T", 2),
-    (6, "1500", "T", "T", 5),
-    (3, "2000", "F", "T", 3),
-    (1, "1900", "F", "T", 7),
-    (4,"1300", "F", "T", 4)
+VALUES (2,"1300", "2D", "AC", 3),
+    (1, "1500", "2D", "NA", 1),
+    (2, "2200", "2D", "AC", 2),
+    (6, "1500", "3D", "NA", 5),
+    (3, "2000", "2D", "AC", 3),
+    (1, "1900", "2D", "AC", 7),
+    (4,"1300", "2D", "AC", 4)
 ;
 
 

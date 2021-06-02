@@ -24,7 +24,7 @@ class Film:
 
     @knt.setter
     def knt(self,knt):
-        if knt.upper() in ["T","F"]:
+        if knt.upper() in ["KNT","KT"]:
             self._knt=knt.upper()
         else :
             raise ValueError
@@ -36,7 +36,7 @@ class Film:
     
     
     def __str__(self):
-        return f"de titel van deze film is {self.titel} en duurt {self.duurtijd}"
+        return f"de titel van deze film is '{self.titel}' en duurt {self.duurtijd}"
 
  
         
