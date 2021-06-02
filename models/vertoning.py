@@ -6,7 +6,7 @@ SETTING = ["2D","3D"]
 VERT_ACT = ["AC", "NA"]
 
 
-class Vertoningen:
+class Vertoning:
     def __init__(self, zaal, uur, drie_d, vertoning_actief, film) :
         self._zaal = zaal
         self._uur = uur 

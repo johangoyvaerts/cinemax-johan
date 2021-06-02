@@ -1,8 +1,8 @@
-from datetime import datetime, date
-from models.vertoningen import Vertoningen
+from datetime import datetime
+from models.vertoning import Vertoning
 from models.film import Film
 
-class Tickets :
+class Ticket :
     def __init__(self, datum, prijs_volw, prijs_kind, aant_volw, aant_kind, vertoning) :
         self._datum = datum
         self.prijs_volw = prijs_volw
@@ -56,7 +56,7 @@ class Tickets :
     #bij een ticket hoort een vertoning van de klasse vertoning
     @vertoning.setter
     def vertoning(self, vertoning):
-        if isinstance(vertoning, Vertoningen) :
+        if isinstance(vertoning, Vertoning) :
             self._vertoning = vertoning
         else :
             raise ValueError
@@ -69,4 +69,4 @@ class Tickets :
 
 
     def __str__(self):
-        return f" ticket gekocht op {self.datum} \n VOLWASENEN {self.aant_volw:>3d} à {self.prijs_volw:>5.2f}€ = {self.prijs_volw*self.aant_volw:>5.2f}€ \n KINDEREN   {self.aant_kind:>3d} à {self.prijs_kind:>5.2f}€ = {self.prijs_kind*self.aant_kind:>5.2f}€\n TOTAAL                    {self.prijs_ticket:>5.2f}€\n {self.vertoning.film}\n zaal : {self.vertoning.zaal} om {self.vertoning.uur}h"
+        return f" ticket gekocht op {self.datum} \n VOLWASENEN {self.aant_volw:>3d} à {self.prijs_volw:>5.2f}€ = {self.prijs_volw*self.aant_volw:>5.2f}€ \n KINDEREN   {self.aant_kind:>3d} à {self.prijs_kind:>5.2f}€ = {self.prijs_kind*self.aant_kind:>5.2f}€\n TOTAAL                    {self.prijs_ticket:>5.2f}€\n {self.vertoning.film}\n zaal {self.vertoning.zaal} om {self.vertoning.uur}h"

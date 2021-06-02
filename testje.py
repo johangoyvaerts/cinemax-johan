@@ -1,7 +1,7 @@
-from models.tickets import Tickets
-from models.vertoningen import Vertoningen
+from models.ticket import Ticket
+from models.vertoning import Vertoning
 from models.film import Film
-from datetime import datetime, date
+
 
 nieuwe_film=Film("grease", 100, "KT","tt4656546")
 film2=Film("grease 2", 135,"KT","tt654678")
@@ -20,19 +20,19 @@ print (nieuwe_film.duurtijd)
 
 print (30*"-")
 
-nieuwe_vertoning = Vertoningen(2,1300,"2D","AC",nieuwe_film)
-vertoning2= Vertoningen(5,2000,"3d","AC",film2)
-vertoning3= Vertoningen(2 ,2000,"2d","AC",film3)
+nieuwe_vertoning = Vertoning(2,1300,"2D","AC",nieuwe_film)
+vertoning2= Vertoning(5,2000,"3d","AC",film2)
+vertoning3= Vertoning(2 ,2000,"2d","AC",film3)
 
-ticket1 = Tickets("2021-04-20",10.5,8.5,1,2, vertoning3)
-ticket2 = Tickets("2021-04-20",10.5,8.5,2,0,vertoning2)
-ticket3 = Tickets("2021-04-20",10.5,8.5,2,0,vertoning2)
-ticket4 = Tickets("2021-04-20",8,0,1,0, nieuwe_vertoning)
-ticket5 = Tickets("2021-04-21",10.5,8.5,2,0,vertoning2)
-ticket6 = Tickets("2021-04-22",10.5,8.5,2,0,vertoning3)
-ticket7 = Tickets("2021-04-22",9.5,8.5,1,2, nieuwe_vertoning)
-ticket8 = Tickets("2021-04-20",10.5,8.5,2,0,vertoning2)
-ticket9 = Tickets("2021-04-20",10.5,8.5,2,0,vertoning2)
+ticket1 = Ticket("2021-04-20",10.5,8.5,1,2, vertoning3)
+ticket2 = Ticket("2021-04-20",10.5,8.5,2,0,vertoning2)
+ticket3 = Ticket("2021-04-20",10.5,8.5,2,0,vertoning2)
+ticket4 = Ticket("2021-04-20",8,0,1,0, nieuwe_vertoning)
+ticket5 = Ticket("2021-04-21",10.5,8.5,2,0,vertoning2)
+ticket6 = Ticket("2021-04-22",10.5,8.5,2,0,vertoning3)
+ticket7 = Ticket("2021-04-22",9.5,8.5,1,2, nieuwe_vertoning)
+ticket8 = Ticket("2021-04-20",10.5,8.5,2,0,vertoning2)
+ticket9 = Ticket("2021-04-20",10.5,8.5,2,0,vertoning2)
 
 dagformaat = "%Y-%m-%d"
 
