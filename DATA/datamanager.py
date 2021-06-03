@@ -118,6 +118,20 @@ class Datamanager :
             vertoningen = [Vertoning.from_dict(rij) for rij in rijen]
             return vertoningen
 
+    def vertoning_by_id(self,id):
+        with dbconn() as cur :
+            sql = "SELECT vertoningen.*, films.* FROM vertoningen INNER JOIN films ON vertoningen.films_id = films.id  WHERE vertoningen.id = ?"
+            cur.execute (sql, [id])
+            rij = cur.fetchone()
+            if rij :
+                vertoning = Vertoning.from_dict(rij)
+                return vertoning
+            else :
+                return None
+            
+
+    
+
 
     #
     #  VERTONINGEN bewerken
@@ -176,7 +190,10 @@ class Datamanager :
             tickets = [Ticket.from_dict(rij) for rij in rijen]
             return tickets
 
-
+    def ticket_toevoegen (self, ticket):
+        with dbconn() as cur :
+            sql = "INSERT INTO tickets (datum, prijs_volw, prijs_kind, aant_volw, aant_kind, vertoningen_id) VALUES (?,?,?,?,?,?)"
+            cur.execute(sql,[ticket.datum, ticket.prijs_volw, ticket.prijs_kind, ticket.aant_volw, ticket.aant_kind, ticket.vertoning.id])
 
     
 #    def alle_tickets(self):

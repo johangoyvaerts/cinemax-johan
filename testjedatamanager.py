@@ -13,7 +13,12 @@ filmzoek3 = dm.film_by_id(3)
 vertoning1 = Vertoning(2,1500,"3D","AC",filmzoek1)
 vertoning2 = Vertoning(3,1500,"2D","AC",filmzoek2)
 vertoning3 = Vertoning(1,2000,"3D","NC",filmzoek3)
-
+vertoningzoek= dm.vertoning_by_id(5)
+vertoningzoek1 = dm.vertoning_by_id(3)
+vertoningzoek2= dm.vertoning_by_id(7)
+ticket1=Ticket("2021-06-01", 10.5, 8.5, 1, 0 , vertoningzoek1)
+ticket2=Ticket("2021-06-02", 10.5, 8.5, 1, 0 , vertoningzoek)
+ticket3=Ticket("2021-06-03", 10.5, 8.5, 1, 0 , vertoningzoek2)
 
 teller=0
 ##
@@ -139,3 +144,11 @@ teller=0
 #for ticket in tickets :
 #    print (f"{ticket.datum}, {ticket.vertoning.film.titel}, {ticket.vertoning.zaal}")
 ##    print (ticket)
+
+
+vertoningzoek= dm.vertoning_by_id(5)
+print (vertoningzoek)
+
+dm.ticket_toevoegen(ticket1)
+dm.ticket_toevoegen(ticket2)
+dm.ticket_toevoegen(ticket3)
