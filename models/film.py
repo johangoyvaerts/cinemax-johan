@@ -1,10 +1,11 @@
 class Film:
 
-    def __init__(self, titel, duur, knt, MDB_id):
+    def __init__(self, titel, duur, knt, MDB_id, id=None):
         self.titel= titel
         self._duur=duur 
         self._knt=knt
         self.MDB_id=MDB_id
+        self.id = id
 
     
     @property
@@ -38,6 +39,16 @@ class Film:
     def __str__(self):
         return f"'{self.titel.upper()}' duur: {self.duurtijd}"
 
- 
+    
+
+    @classmethod
+    def from_dict(cls,dict):
+        titel = dict["titel"]
+        duur = dict["duur"]
+        knt = dict["knt"]
+        MDB_id = dict["MDB_id"]
+        id = dict["id"]
+        return cls(titel,duur,knt,MDB_id,id)
+
         
              

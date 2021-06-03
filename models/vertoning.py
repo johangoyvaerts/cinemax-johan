@@ -7,12 +7,13 @@ VERT_ACT = ["AC", "NA"]
 
 
 class Vertoning:
-    def __init__(self, zaal, uur, drie_d, vertoning_actief, film) :
+    def __init__(self, zaal, uur, drie_d, vertoning_actief, film, id=None) :
         self._zaal = zaal
         self._uur = uur 
         self._drie_d= drie_d
         self._vertoning_actief= vertoning_actief
         self._film=film
+        self.id=id
     
     @property
     def zaal (self) :
@@ -88,3 +89,14 @@ class Vertoning:
             return  f"'{self.film.titel}' in zaal {self.zaal} om {self.uur}, duurtijd : {self.film.duurtijd}"
         else :
             return  f"'{self.film.titel}' in zaal {self.zaal} om {self.uur} speelt niet"
+
+
+    @classmethod
+    def from_dict (cls,dict):
+        zaal =dict ["zaal"]
+        uur = dict["uur"] 
+        drie_d=dict ["drie_d"]
+        vertoning_actief= dict["vertoning_actief"]
+        film=Film(dict["titel"], dict["duur"], dict["knt"], dict["MDB_id"], dict["films_id"])
+        id=dict["id"]
+        return cls(zaal, uur, drie_d, vertoning_actief, film, id)
