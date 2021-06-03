@@ -91,7 +91,6 @@ class Datamanager :
             vertoningen = [Vertoning.from_dict(rij) for rij in rijen]
             return vertoningen
 
-
     def alle_2D_vertoningen(self):
         with dbconn() as cur :
             sql = "SELECT vertoningen.*, films.* FROM vertoningen INNER JOIN films ON vertoningen.films_id = films.id  WHERE vertoningen.drie_d = '2D'"
@@ -100,7 +99,6 @@ class Datamanager :
             vertoningen = [Vertoning.from_dict(rij) for rij in rijen]
             return vertoningen
 
-
     def alle_3D_vertoningen(self):
         with dbconn() as cur :
             sql = "SELECT vertoningen.*, films.* FROM vertoningen INNER JOIN films ON vertoningen.films_id = films.id  WHERE vertoningen.drie_d = '3D'"
@@ -108,7 +106,6 @@ class Datamanager :
             rijen = cur.fetchall()
             vertoningen = [Vertoning.from_dict(rij) for rij in rijen]
             return vertoningen
-
     
     def alle_vertoningen_by_zaal(self,zaal):
         with dbconn() as cur :
@@ -129,10 +126,6 @@ class Datamanager :
             else :
                 return None
             
-
-    
-
-
     #
     #  VERTONINGEN bewerken
     #
@@ -160,7 +153,7 @@ class Datamanager :
             sql = "INSERT INTO vertoningen (zaal, uur, drie_d, vertoning_actief, films_id) VALUES (?,?,?,?,?)"
             cur.execute(sql,[vertoning.zaal, vertoning.uur, vertoning.drie_d, vertoning.vertoning_actief, vertoning.film.id])
 
- #           
+#           
 #   TICKETS
 #
 
@@ -194,15 +187,4 @@ class Datamanager :
         with dbconn() as cur :
             sql = "INSERT INTO tickets (datum, prijs_volw, prijs_kind, aant_volw, aant_kind, vertoningen_id) VALUES (?,?,?,?,?,?)"
             cur.execute(sql,[ticket.datum, ticket.prijs_volw, ticket.prijs_kind, ticket.aant_volw, ticket.aant_kind, ticket.vertoning.id])
-
-    
-#    def alle_tickets(self):
-#        with dbconn() as cur :
-#            sql = "SELECT tickets.*, vertoningen.*, films.* FROM vertoningen INNER JOIN films, vertoningen ON tickets.vertoningen_id = vertoningen.id AND vertoningen.films_id = films.id"
-#            cur.execute (sql)
-#            rijen = cur.fetchall()
-#            tickets = [Ticket.from_dict(rij) for rij in rijen]
-#            return tickets
-
-
     
