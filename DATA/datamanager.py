@@ -123,17 +123,15 @@ class Datamanager :
     #  VERTONINGEN bewerken
     #
 
-    def vertoning_actief_by_id(self,id):
+    def set_vertoning_actief_by_id(self,id):
         with dbconn() as cur :
             sql = "UPDATE vertoningen SET vertoning_actief = 'AC' WHERE id = ?"
             cur.execute (sql, [id])
 
-    def vertoning_non_actief_by_id(self,id):
+    def set_vertoning_non_actief_by_id(self,id):
         with dbconn() as cur :
             sql = "UPDATE vertoningen SET vertoning_actief = 'NA' WHERE id = ?"
             cur.execute (sql, [id])
-
-
 
     def vertoning_verwijderen_by_id (self,id):
         with dbconn() as cur :
@@ -143,14 +141,51 @@ class Datamanager :
             else :
                 raise ValueError
 
-
     def vertoning_toevoegen (self, vertoning):
         with dbconn() as cur :
             sql = "INSERT INTO vertoningen (zaal, uur, drie_d, vertoning_actief, films_id) VALUES (?,?,?,?,?)"
             cur.execute(sql,[vertoning.zaal, vertoning.uur, vertoning.drie_d, vertoning.vertoning_actief, vertoning.film.id])
 
-            
+ #           
+#   TICKETS
+#
 
+    # tonen
+
+    def alle_tickets(self):
+        with dbconn() as cur :
+            sql = "SELECT tickets.*, vertoningen.*, films.* FROM tickets INNER JOIN vertoningen, films ON tickets.vertoningen_id = vertoningen.id AND vertoningen.films_id = films.id"
+            cur.execute (sql)
+            rijen = cur.fetchall()
+            tickets = [Ticket.from_dict(rij) for rij in rijen]
+            return tickets
+
+    def tickets_tss_data(self, datumlaag, datumhoog):
+        with dbconn() as cur :
+            sql = "SELECT tickets.*, vertoningen.*, films.* FROM tickets INNER JOIN vertoningen, films ON tickets.vertoningen_id = vertoningen.id AND vertoningen.films_id = films.id WHERE tickets.datum > ? AND tickets.datum <= ?"
+            cur.execute (sql,[datumlaag,datumhoog])
+            rijen = cur.fetchall()
+            tickets = [Ticket.from_dict(rij) for rij in rijen]
+            return tickets
+
+    def tickets_by_film_id(self, id):
+        with dbconn() as cur :
+            sql = "SELECT tickets.*, vertoningen.*, films.* FROM tickets INNER JOIN vertoningen, films ON tickets.vertoningen_id = vertoningen.id AND vertoningen.films_id = films.id WHERE films.id = ? "
+            cur.execute (sql,[id])
+            rijen = cur.fetchall()
+            tickets = [Ticket.from_dict(rij) for rij in rijen]
+            return tickets
+
+
+
+    
+#    def alle_tickets(self):
+#        with dbconn() as cur :
+#            sql = "SELECT tickets.*, vertoningen.*, films.* FROM vertoningen INNER JOIN films, vertoningen ON tickets.vertoningen_id = vertoningen.id AND vertoningen.films_id = films.id"
+#            cur.execute (sql)
+#            rijen = cur.fetchall()
+#            tickets = [Ticket.from_dict(rij) for rij in rijen]
+#            return tickets
 
 
     

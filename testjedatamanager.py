@@ -4,13 +4,15 @@ from models.ticket import Ticket
 from DATA.datamanager import Datamanager
 
 dm = Datamanager()
-film1=Film("In the Heights", 143, "KT", "tt1321510")
-film2=Film("Peter Rabbit 2: The Runaway", 99, "KT", "tt8376234")
-film3=Film("Censor", 84, "KNT", "tt10329614")
-
-vertoning1 = Vertoning(2,1500,"3D","AC",film1)
-vertoning2 = Vertoning(3,1500,"2D","AC",film2)
-vertoning3 = Vertoning(1,2000,"3D","NC",film3)
+#film1=Film("In the Heights", 143, "KT", "tt1321510")
+#film2=Film("Peter Rabbit 2: The Runaway", 99, "KT", "tt8376234")
+#film3=Film("Censor", 84, "KNT", "tt10329614")
+filmzoek1 = dm.film_by_id(5)
+filmzoek2 = dm.film_by_id(9)
+filmzoek3 = dm.film_by_id(3)
+vertoning1 = Vertoning(2,1500,"3D","AC",filmzoek1)
+vertoning2 = Vertoning(3,1500,"2D","AC",filmzoek2)
+vertoning3 = Vertoning(1,2000,"3D","NC",filmzoek3)
 
 
 teller=0
@@ -42,8 +44,9 @@ teller=0
 #print()
 #print (10*"voegtoe ")
 #
-##dm.film_toevoegen(film1)
-##dm.film_toevoegen(film2)
+#dm.film_toevoegen(film1)
+#dm.film_toevoegen(film2)
+#dm.film_toevoegen(film3)
 ##films = dm.alle_films()
 ##for film in films :
 ##    print (f"{film.id} {film.titel} en duurt {film.duurtijd} en is {'kinderen toegelaten' if film.knt == 'KT' else 'kinderen niet toegelaten.' }")
@@ -107,16 +110,32 @@ teller=0
 #print (" zet AC"*10)
 #print ()
 #
-#dm.vertoning_actief_by_id(2)
+#dm.set_vertoning_actief_by_id(2)
 
 #dm.film_toevoegen(film1)
 #dm.film_toevoegen(film2)
 #dm.film_toevoegen(film3)
 
 
-#dm.vertoning_non_actief_by_id(7)
+#dm.set_vertoning_non_actief_by_id(7)
 
-#dm.vertoning_verwijderen_by_id(4)
+#dm.vertoning_verwijderen_by_id(8)
 
-dm.vertoning_toevoegen(vertoning2)
+#dm.vertoning_toevoegen(vertoning3)
 
+#dm.vertoning_verwijderen_by_id(2)
+
+#tickets= dm.alle_tickets()
+#for ticket in tickets :
+##    print (f"{ticket.datum}, {ticket.vertoning.film.titel}, {ticket.vertoning.zaal}")
+#    print (ticket)
+
+#tickets = dm.tickets_tss_data("2021-05-01", "2021-05-31")
+#for ticket in tickets :
+#    print (f"{ticket.datum}, {ticket.vertoning.film.titel}, {ticket.vertoning.zaal}")
+##    print (ticket)
+
+#tickets = dm.tickets_by_film_id(5)
+#for ticket in tickets :
+#    print (f"{ticket.datum}, {ticket.vertoning.film.titel}, {ticket.vertoning.zaal}")
+##    print (ticket)
