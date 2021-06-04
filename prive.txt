@@ -1,0 +1,11 @@
+API ky TMDB :  63ab94123b97a859ecdc1e3ebdd2af14
+user name Johangoyvaerts
+
+https://api.themoviedb.org/3/movie/76341?api_key=<<api_key>>&language=nl
+
+region = BE
+
+
+
+
+https://api.themoviedb.org/3/movie/343611?api_key={api_key}
