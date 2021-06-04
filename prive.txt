@@ -7,5 +7,8 @@ region = BE
 
 
 
+343611 is de id van een film :
+
+
 
 https://api.themoviedb.org/3/movie/343611?api_key={api_key}
