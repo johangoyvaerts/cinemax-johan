@@ -91,7 +91,7 @@ def ft_film_verwijderen():
                 if keuze == "":
                     break
 
-                if keuze in id_list :
+                if int(keuze) in id_list :
                     film=dm.film_by_id(int(keuze))
                     while True :
                 
