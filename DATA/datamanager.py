@@ -31,6 +31,17 @@ class Datamanager :
             else :
                 return None
 
+    def film_by_MDB_id(self, MDB_id):
+        with dbconn() as cur :
+            sql = "SELECT * FROM films WHERE MDB_id = ?"
+            cur.execute (sql, [MDB_id])
+            rij = cur.fetchone()
+            if rij :
+                film = Film.from_dict(rij)
+                return film
+            else :
+                return None
+
     def film_by_zoekterm(self, zoekterm):
         with dbconn() as cur :
             zkterm =f"%{zoekterm}%"
@@ -57,6 +68,14 @@ class Datamanager :
             if id :
                 sql = "DELETE FROM films WHERE id = ?"
                 cur.execute(sql,[id])
+            else :
+                raise ValueError
+
+    def film_verwijderen_by_MDB_id (self,MDB_id):
+        with dbconn() as cur :
+            if id :
+                sql = "DELETE FROM films WHERE MDB_id = ?"
+                cur.execute(sql,[MDB_id])
             else :
                 raise ValueError
 

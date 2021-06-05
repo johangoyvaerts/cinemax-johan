@@ -37,7 +37,7 @@ class Film:
     
     
     def __str__(self):
-        return f"'{self.titel.upper()}' duur: {self.duurtijd}"
+        return f"'{self.titel.upper()}' duur: {self.duurtijd} {self.knt}"
 
     
 
@@ -48,6 +48,15 @@ class Film:
         knt = dict["knt"]
         MDB_id = dict["MDB_id"]
         id = dict["id"]
+        return cls(titel,duur,knt,MDB_id,id)
+
+    @classmethod
+    def from_movie_dict(cls,dict):
+        titel = dict["title"]
+        duur = dict["runtime"]
+        knt = "KNT" if dict["adult"] else "KT"
+        MDB_id = dict["id"]
+        #id = dict["id"]
         return cls(titel,duur,knt,MDB_id,id)
 
         
