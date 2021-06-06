@@ -144,6 +144,17 @@ class Datamanager :
                 return vertoning
             else :
                 return None
+
+    def vertoning_by_film_id(self,id):
+        with dbconn() as cur :
+            sql = "SELECT vertoningen.*, films.* FROM vertoningen INNER JOIN films ON vertoningen.films_id = films.id  WHERE vertoningen.films_id = ?"
+            cur.execute (sql, [id])
+            rij = cur.fetchone()
+            if rij :
+                vertoning = Vertoning.from_dict(rij)
+                return vertoning
+            else :
+                return None    
             
     #
     #  VERTONINGEN bewerken

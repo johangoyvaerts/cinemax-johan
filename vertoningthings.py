@@ -1,9 +1,13 @@
+from models.vertoning import Vertoning
 from os import system
 from ansimarkup import ansiprint as print
+import prettytable
 from DATA.datamanager import Datamanager
 from prettytable import PrettyTable
 from time import sleep
 from menu_en_controle import menu_keuze_controle, menu_opbouw, controle_jn
+
+
 
 def ft_vertoning_bewerken():
     while True:
@@ -31,6 +35,11 @@ def ft_vertoning_bewerken():
 
 
 def ft_vertoning_verwijderen():
+# indien er tickets van vertoningen bestaan, mag j die niet verwijderen!!! NOG TOEVOEGEN
+# indien er tickets van vertoningen bestaan, mag j die niet verwijderen!!! NOG TOEVOEGEN
+# indien er tickets van vertoningen bestaan, mag j die niet verwijderen!!! NOG TOEVOEGEN
+# indien er tickets van vertoningen bestaan, mag j die niet verwijderen!!! NOG TOEVOEGEN
+#    
     keuze = None
     dm=Datamanager()
 
@@ -43,7 +52,7 @@ def ft_vertoning_verwijderen():
         #  TOON ALLE films
         #
         vertoningen=dm.alle_vertoningen()
-        print (vertoningen)
+        #print (vertoningen)
         input()
         for vertoning in vertoningen :
             #titel = dm.film_by_id(vertoning.film.id)
@@ -86,12 +95,40 @@ def ft_vertoning_verwijderen():
             print ("<red> vertoning niet in lijst !!! </red>")
             sleep (1.5)
     return
-    pass
+    
 
 
 def ft_vertoning_toevoegen():
+    while True :
+        x = PrettyTable()
+        dm = Datamanager()
+       
+        zaal = int(input("zaal"))
+        
+        uur = int(input("uur"))
+        
+        drie_d = input ("2D/3D")
+        
+        vertoning_actief= input("AC/NC")
+        
+        films=dm.alle_films()
+        for film in films :
+            x.add_row([film.id, film.titel])
+        print (x)    
+        print ("selecteer film")
+        film_id= input()
+        
+        film= dm.film_by_id(film_id)
+        vertoning= Vertoning(zaal, uur, drie_d, vertoning_actief, film)
+        dm.vertoning_toevoegen(vertoning)
+        jn= input ("jn")
+        if jn == "n":
+            break
 
-    pass
+
+        
+
+ 
 
 def ft_vertoning_actief_maken():
     pass

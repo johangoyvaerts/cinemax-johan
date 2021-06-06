@@ -1,3 +1,4 @@
+
 from DATA.datamanager import Datamanager
 from os import system
 import requests
@@ -92,9 +93,22 @@ def ft_film_verwijderen_by_id():
         keuze = input()
         if keuze == "":
             break
+        #
+        # nagaan of de film in een vertoning is opgenomen
+        # indien ja : niet verwijderen omdat er misschien tickets van verkocht zijn!!! 
+        # anders is de link tussen het Ticket en de film verloren en kan men niet meer de omzet
+        # per film opvragen!! 
+
+        vertoning = dm.vertoning_by_film_id(int(keuze))
+        if vertoning :
+            print ("film kan niet worden verwijderd, hij is in een vertoning opgenomen")
+            input()
+            continue
+                
         # Enkel de film verwijderen als die in de DB zit!!!
         if int(keuze) in id_list :
             film=dm.film_by_id(int(keuze))
+
             while True :
         
                 print (f"Wenst u {film} toe te VERWIJDEREN. druk j/n ", end = "")
@@ -144,6 +158,16 @@ def ft_film_verwijderen_by_MDB_id():
         keuze = input()
         if keuze == "":
             break
+        
+        if keuze in MDB_id_list :
+            film=dm.film_by_MDB_id(keuze)
+
+            vertoning = dm.vertoning_by_film_id(film.id)
+        if vertoning :
+            print ("film kan niet worden verwijderd, hij is in een vertoning opgenomen")
+            input()
+            continue
+
         if keuze in MDB_id_list : #kijk na of de film al in de db zit
             film=dm.film_by_MDB_id(keuze)
             while True :
