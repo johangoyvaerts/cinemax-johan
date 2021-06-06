@@ -9,26 +9,37 @@ from menu_en_controle import controle_jn, menu_opbouw, menu_keuze_controle
 from prettytable import PrettyTable
 
 # film toevoegen met de TMDB_id (te vinden op Themovierdb.org)
+def get_api_key():
+    with open ("api_key.txt") as bestand :
+        api_key = bestand.readline()
+        #print (api_key)
+    return api_key
 
+# print (api_key)
 def ft_film_toevoegen():
+    api_key= get_api_key()
     dm=Datamanager()
     jn=""
     endpoint1 = "https://api.themoviedb.org/3/movie/"
-    endpoint2 ="?api_key=63ab94123b97a859ecdc1e3ebdd2af14&language=nl&region=BE"
+    endpoint2 ="?api_key="+api_key+"&language=nl&region=BE"
+    #print (endpoint2)
     while True :
         system ("cls")
-        print("       <b><GREEN>                               </GREEN></b>")
-        print("       <b><GREEN>   FILM TOEGOEGEN MET TMDB ID  </GREEN></b>")
-        print("       <b><GREEN>                               </GREEN></b>")
+        print("       <b><GREEN>                                    </GREEN></b>")
+        print("       <b><GREEN>     FILM TOEVOEGEN MET TMDB ID     </GREEN></b>")
+        print("       <b><GREEN>                                    </GREEN></b>")
         print()
         print ("<blue> Geef het Movie Data Base id aub ? </blue> (eindig met ENTER) ", end ="")
         MDB_id=input ()
+        #print (endpoint1+MDB_id+endpoint2)
+        #input()
         film=dm.film_by_MDB_id(MDB_id)
+        
         # nakijken of film al in de datebase zit
         # indien ja : niet toevoegen
         if film : 
-            print(f"\n <b><RED> BESTAAT AL IN DATABASE!!!</RED></b>\n \n <red>kan '{film.titel.upper()}' <b>NIET</b> toevoegen!!!!!!</red>")
-            sleep (2.5)
+            print(f"\n <b><RED> BESTAAT AL IN DATABASE!!!</RED></b>\n \n <red>kan '{film.titel.upper()}' <b>NIET</b> toevoegen!!!!!!</red> (DRUK TOETS)", end ="")
+            input ()
         else :
 
             #als enter wordt ingedrukt zonder een ingave, stoppen we deze funktie
@@ -43,7 +54,7 @@ def ft_film_toevoegen():
                 film = Film.from_movie_dict(movie_dict) 
                 while True :
 
-                    print (f"Wenst u {film} toe te voegen. druk j/n ", end = "")
+                    print (f"\n Wenst u {film} toe te voegen. druk j/n ", end = "")
                     jn=input()
                     logic=controle_jn(jn)
                     if logic :
@@ -51,16 +62,16 @@ def ft_film_toevoegen():
                     continue
                 
                 if jn.upper() == "J":
-                    print ("\n WORDT TOEGEVOEGD!!")
+                    print ("\n    WORDT TOEGEVOEGD!!   ", end="")
                     dm.film_toevoegen(film)
                     sleep (1.5)
                 else :
-                    print (f"\n {film} werd <b><red>NIET</red></b> toegevoegd", end ="")
-                    sleep (2)
+                    print (f"\n {film} werd <b><red>NIET</red></b> toegevoegd\n \n DRUK TOETS", end ="")
+                    input()
 
             else :
-                print ("<red> film niet gevonden </red>")
-                sleep (1.0)
+                print ("\n<red>    Film <b>NIET</b> gevonden bij TheMovieDB.org, \n\n    <b>CONTROLEER TMDB_ID !!!</b></red>    DRUK TOETS", end="")
+                input()
     return
 
 
@@ -101,8 +112,9 @@ def ft_film_verwijderen_by_id():
 
         vertoning = dm.vertoning_by_film_id(int(keuze))
         if vertoning :
-            print ("film kan niet worden verwijderd, hij is in een vertoning opgenomen")
-            input()
+            print (f"\n Film kan niet worden verwijderd, {film.titel} is in een vertoning opgenomen")
+            print()
+            input("DRUK TOETS")
             continue
                 
         # Enkel de film verwijderen als die in de DB zit!!!

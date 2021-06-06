@@ -53,7 +53,7 @@ def ft_vertoning_verwijderen():
         #
         vertoningen=dm.alle_vertoningen()
         #print (vertoningen)
-        input()
+        #input()
         for vertoning in vertoningen :
             #titel = dm.film_by_id(vertoning.film.id)
             x.add_row([vertoning.id, vertoning.zaal, vertoning.uur, vertoning.drie_d, vertoning.vertoning_actief, vertoning.film.titel])
@@ -99,11 +99,21 @@ def ft_vertoning_verwijderen():
 
 
 def ft_vertoning_toevoegen():
+    ZALEN = [1, 2, 3, 4, 5, 6]
+    SETTING = ["2D","3D"]
+    VERT_ACT = ["AC", "NA"]
+    zaal = 0
+
+
     while True :
+        zaal = 0
+        drie_d =""
+        vertoning_actief=""
         x = PrettyTable()
         dm = Datamanager()
-       
-        zaal = int(input("zaal"))
+        while zaal not in ZALEN :
+            zaal = int(input("Geef een getal 1, 2, 3, 4, 5, 6 "))
+
         
         uur = int(input("uur"))
         
@@ -127,7 +137,6 @@ def ft_vertoning_toevoegen():
 
 
         
-
  
 
 def ft_vertoning_actief_maken():

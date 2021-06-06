@@ -2,8 +2,8 @@ class Film:
 
     def __init__(self, titel, duur, knt, MDB_id, id=None):
         self.titel= titel
-        self._duur=duur 
-        self._knt=knt
+        self.duur=duur 
+        self.knt=knt
         self.MDB_id=MDB_id
         self.id = id
 

@@ -8,11 +8,11 @@ VERT_ACT = ["AC", "NA"]
 
 class Vertoning:
     def __init__(self, zaal, uur, drie_d, vertoning_actief, film, id=None) :
-        self._zaal = zaal
-        self._uur = uur 
-        self._drie_d= drie_d
-        self._vertoning_actief= vertoning_actief
-        self._film=film
+        self.zaal = zaal
+        self.uur = uur 
+        self.drie_d= drie_d
+        self.vertoning_actief= vertoning_actief
+        self.film=film
         self.id=id
     
     @property

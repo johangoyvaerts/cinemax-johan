@@ -9,7 +9,7 @@ class Ticket :
         self.prijs_kind = prijs_kind
         self.aant_volw = aant_volw
         self.aant_kind = aant_kind
-        self._vertoning = vertoning
+        self.vertoning = vertoning
         self.id=id
 
     @property

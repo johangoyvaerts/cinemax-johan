@@ -14,8 +14,7 @@ from filmthings import ft_film_bewerken
 MDB_id = ""
 dm = Datamanager()
 
-#endpoint1 = "https://api.themoviedb.org/3/movie/"
-#endpoint2 ="?api_key=63ab94123b97a859ecdc1e3ebdd2af14&language=nl&region=BE"
+
 rijteller =0 
 
 while True :
