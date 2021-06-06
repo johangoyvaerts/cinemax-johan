@@ -1,4 +1,6 @@
 from os import system
+from ticketthings import ft_tickets_bewerken
+from vertoningthings import ft_vertoning_bewerken
 from menu_en_controle import menu_keuze_controle, menu_opbouw
 from prettytable import PrettyTable
 from ansimarkup import ansiprint as print
@@ -7,7 +9,7 @@ from models.film import Film
 from DATA.datamanager import Datamanager
 from time import sleep
 import json
-from filmthings import ft_film_toevoegen, ft_film_verwijderen
+from filmthings import ft_film_bewerken
 
 MDB_id = ""
 dm = Datamanager()
@@ -19,7 +21,7 @@ rijteller =0
 while True :
     
 
-    TO_DO_list= ["Film toevoegen", "Film Verwijderen", "Vertoning Toevoegen", "Vertoning Verwijderen"]
+    TO_DO_list= ["Film bewerken",  "Vertoningen bewerken", "Tickets bewerken"]
     TO_DO_list_header = ["keuze", "WAT WIL JE DOEN"]
     system ('cls')    
     x, rijteller = menu_opbouw (TO_DO_list_header, TO_DO_list)
@@ -30,6 +32,11 @@ while True :
     if keuze == "0":
         break
     if keuze == "1":
-        ft_film_toevoegen()
+        ft_film_bewerken()
     if keuze == "2":
-        ft_film_verwijderen()
+        ft_vertoning_bewerken()
+
+    if keuze =="3":
+        ft_tickets_bewerken()
+
+    
