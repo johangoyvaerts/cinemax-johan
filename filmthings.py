@@ -56,12 +56,12 @@ def ft_film_toevoegen():
 
                     print (f"\n Wenst u {film} toe te voegen. druk j/n ", end = "")
                     jn=input()
-                    logic=controle_jn(jn)
-                    if logic :
+                    jn=controle_jn(jn)
+                    if not jn :
                         break
                     continue
                 
-                if jn.upper() == "J":
+                if jn == "J":
                     print ("\n    WORDT TOEGEVOEGD!!   ", end="")
                     dm.film_toevoegen(film)
                     sleep (1.5)
@@ -125,12 +125,12 @@ def ft_film_verwijderen_by_id():
         
                 print (f"Wenst u {film} toe te VERWIJDEREN. druk j/n ", end = "")
                 jn=input()
-                logic=controle_jn(jn)
-                if logic :
+                jn=controle_jn(jn)
+                if not jn :
                     break
                 continue
     
-            if jn.upper() == "J":
+            if jn == "J":
                 print ("\n <red>WORDT VERWIJDERD!!</red>")
                 dm.film_verwijderen_by_id(int(keuze))
                 sleep (1.5)
@@ -186,12 +186,12 @@ def ft_film_verwijderen_by_MDB_id():
         
                 print (f"Wenst u {film} toe te VERWIJDEREN. druk j/n ", end = "")
                 jn=input()
-                logic=controle_jn(jn)
-                if logic :
+                jn=controle_jn(jn)
+                if not jn :
                     break
                 continue
     
-            if jn.upper() == "J":
+            if jn == "J":
                 print ("\n <red>WORDT VERWIJDERD!!</red>")
                 dm.film_verwijderen_by_MDB_id(keuze)
                 sleep (1.5)

@@ -35,8 +35,9 @@ def menu_keuze_controle (rijteller, keuze):
 
 def controle_jn(jn):
     if jn.upper() == "J" or jn.upper() == "N" :
-        return True
+        return jn.upper()
     else :
         print ("<RED>CORRECTE KEUZE AUB</RED>")
         sleep (0.5)
+        return None
     
