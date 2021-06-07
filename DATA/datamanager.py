@@ -183,6 +183,17 @@ class Datamanager :
             sql = "INSERT INTO vertoningen (zaal, uur, drie_d, vertoning_actief, films_id) VALUES (?,?,?,?,?)"
             cur.execute(sql,[vertoning.zaal, vertoning.uur, vertoning.drie_d, vertoning.vertoning_actief, vertoning.film.id])
 
+    def set_vertoning_3D_by_id(self,id):
+        with dbconn() as cur :
+            sql = "UPDATE vertoningen SET drie_d = '3D' WHERE id = ?"
+            cur.execute (sql, [id])
+
+    def set_vertoning_2D_by_id(self,id):
+        with dbconn() as cur :
+            sql = "UPDATE vertoningen SET drie_d = '2D' WHERE id = ?"
+            cur.execute (sql, [id])
+
+
 #           
 #   TICKETS
 #

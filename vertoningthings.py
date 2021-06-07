@@ -5,18 +5,18 @@ import prettytable
 from DATA.datamanager import Datamanager
 from prettytable import PrettyTable
 from time import sleep
-from menu_en_controle import menu_keuze_controle, menu_opbouw, controle_jn
+from menu_en_controle import controle_int, menu_keuze_controle, menu_opbouw, controle_jn
 
 
 
 def ft_vertoning_bewerken():
     while True:
-        TO_DO_list= ["Vertoning Verwijderen",  "Vertoning Toevoegen", "Vertoning Actief maken", "Vertoning Non Actief maken", "Vertoninge 2d/3D"]
+        TO_DO_list= ["Vertoning Verwijderen",  "Vertoning Toevoegen", "Wissel Actief/Non-actief",  "Wissel 2D/3D", "Actieve vertoningen tonen","Alle vertoningen tonen"]
         TO_DO_list_header = ["keuze", "WAT WIL JE DOEN"]
         system ('cls')    
         x, rijteller = menu_opbouw (TO_DO_list_header, TO_DO_list)
         print (x)
-        print (f"<blue>MAAK UW KEUZE AUB (tussen 0 en {rijteller} ) </blue>", end = "")
+        print (f"<blue>MAAK UW KEUZE AUB (tussen 0 en {rijteller}) </blue>", end = "")
         keuze = input()
         menu_keuze_controle(rijteller, keuze)
         if keuze == "0":
@@ -25,12 +25,14 @@ def ft_vertoning_bewerken():
             ft_vertoning_verwijderen()
         if keuze == "2":
             ft_vertoning_toevoegen()
+        if keuze =="3":
+            ft_vertoning_actief_non_maken()
         if keuze =="4":
-            ft_vertoning_actief_maken()
-        if keuze =="5":
-            ft_vertoning_non_actief_maken()
-        if keuze =="6":
             ft_vertoning_drie_d_wisselen()
+        if keuze =="5":
+            ft_vertoning_actief_tonen()
+        if keuze =="6":
+            ft_alle_vertoningen_tonen()
 
 
 
@@ -70,6 +72,13 @@ def ft_vertoning_verwijderen():
         keuze = input()
         if keuze == "":
             break
+
+        keuze = controle_int(keuze)
+        while not keuze :
+            print ("<red>Maak uw keuze (ID) </red> (eindig met enter) ", end ="")
+            keuze = input()
+            keuze = controle_int(keuze)
+
         # Enkel de film verwijderen als die in de DB zit!!!
         if int(keuze) in id_list :
             vertoning=dm.vertoning_by_id(int(keuze))
@@ -77,12 +86,12 @@ def ft_vertoning_verwijderen():
         
                 print (f"Wenst u {vertoning} toe te VERWIJDEREN. druk j/n ", end = "")
                 jn=input()
-                logic=controle_jn(jn)
-                if logic :
+                jn=controle_jn(jn)
+                if jn =="N" :
                     break
                 continue
     
-            if jn.upper() == "J":
+            if jn == "J":
                 print ("\n <red>WORDT VERWIJDERD!!</red>")
                 dm.vertoning_verwijderen_by_id(int(keuze))
                 sleep (1.5)
@@ -112,7 +121,7 @@ def ft_vertoning_toevoegen():
         print("       <b><GREEN>        VERTONING TOEVOEGEN         </GREEN></b>")
         print("       <b><GREEN>                                    </GREEN></b>")
         print("<green>\n LET OP\n\n geef de juiste waardes in!!! let op hetgeen gevraagd wordt!!\n\n een ingegeven vertoning is <b>steeds AKTIEF!!</b></green>")
-        print(" <green>\ndoor ENTER te drukken verlaat u het menu</green>")
+        print(" <green>\n door ENTER te drukken verlaat u het menu</green>")
         print("\n<blue>Geef een zaal 1, 2, 3, 4, 5, 6 : </blue>", end="")
         zaal = input()
         if not zaal :
@@ -131,7 +140,7 @@ def ft_vertoning_toevoegen():
             x.add_row([film.id, film.titel])
             film_id_list.append(film.id)
         print (x)    
-        print (f"\n<blue>voor welke film maakt u een vertoning in zaal {zaal} om {uur} (GEEF DE ID!)</blue>", end="")
+        print (f"\n<blue> voor welke film maakt u een vertoning in zaal {zaal} om {uur} (GEEF DE ID!)</blue>", end="")
         film_id= input()
         if not film_id :
             break
@@ -169,11 +178,151 @@ def ft_vertoning_toevoegen():
         
  
 
-def ft_vertoning_actief_maken():
-    pass
+def ft_vertoning_actief_non_maken():
+    while True :
+        jn=""
+        x = PrettyTable()
+        x.field_names=(["ID", "zaal", "uur",  "filmtitel", "Act/NON-Act"])
+        dm = Datamanager()
+        vertoning_list=[]
+        system ("cls")
+        print("       <b><GREEN>                                                    </GREEN></b>")
+        print("       <b><GREEN>        VERTONING ACTEF/NON-ACTIEF WISSELEN         </GREEN></b>")
+        print("       <b><GREEN>                                                    </GREEN></b>")  
+        print("<green>\n  Als een vertoning ACTIEF is kan je ze hier op Non-Actief plaatsen\n\n  Geef de juiste waardes in!!! Let op hetgeen gevraagd wordt!! </green>")
+        print(" <green>\n  door ENTER te drukken verlaat u het menu</green>") 
+        vertoningen=dm.alle_vertoningen()
+        for vertoning in vertoningen :
+            x.add_row([vertoning.id, vertoning.zaal, vertoning.uur, vertoning.film.titel, "<red>ACTIEF</red>" if vertoning.vertoning_actief =="AC" else "<red>NON-ACTIEF</red>" ])
+            vertoning_list.append(vertoning.id)
 
-def ft_vertoning_non_actief_maken():
-    pass
+        print (x)
+        print (vertoning_list)
+        print ("\n<blue>  Welke vertoning (ID) moet ACTIEF/NON-ACTIEF</blue> ", end="")
+        vertoning_ID = input()
+        if not vertoning_ID :
+            break
+        #if not vertoning_ID :
+        #    break
+        vertoning_ID=controle_int(vertoning_ID)
+        while not vertoning_ID :
+            print ("\n<blue>  Welke vertoning (ID) moet ACTIEF/NON-ACTIEF</blue> ", end="")
+            vertoning_ID = input()
+            vertoning_ID=controle_int(vertoning_ID)
+            if not vertoning_ID :
+                continue            
+                
+        
+        if int(vertoning_ID) in vertoning_list :
+            vertoning=dm.vertoning_by_id(int(vertoning_ID))
+            #print ("HOERA")
+            #input()
+            print (f"<blue>   {vertoning} </blue><red>{'AKTIEF' if vertoning.vertoning_actief=='AC' else 'NON-AKTIEF'}</red><blue> Wisselen in</blue> <red>{'NON-AKTIEF' if vertoning.vertoning_actief=='AC' else 'AKTIEF'}</red> <blue>?? (j/n)</blue>", end ="")
+            jn=input ()
+            #print (jn)
+            #input()
+            jn=controle_jn(jn)
+            while not jn :
+                print (f"<blue>   {vertoning} </blue><red>{'AKTIEF' if vertoning.vertoning_actief=='AC' else 'NON-AKTIEF'}</red><blue> Wisselen in</blue> <red>{'NON-AKTIEF' if vertoning.vertoning_actief=='AC' else 'AKTIEF'}</red> <blue>?? (j/n)</blue>", end ="")
+                jn=input () 
+                jn = controle_jn(jn)               
+            if jn =="J":
+                if vertoning.vertoning_actief == "AC":
+                    print (" <red> WISSELEN </red>")
+                    dm.set_vertoning_non_actief_by_id(int(vertoning_ID))
+                else :
+                    dm.set_vertoning_actief_by_id(int(vertoning_ID))
+#            else :
+#                continue
+#        print ("<blue>\n   Nog wisselen Actief, Non-actief ?? (j/n) </blue>", end ="")
+#        jn = input()
+#        jn = controle_jn(jn)
+#        if jn == "N":
+#            break
+
+
+#    pass
+
+def ft_vertoning_actief_tonen():
+
+    x = PrettyTable()
+    x.field_names=(["ID", "zaal", "uur",  "filmtitel", "Act/NON-Act"])
+    dm = Datamanager()
+    vertoningen = dm.alle_actieve_vertoningen()
+    
+    for vertoning in vertoningen :
+        x.add_row([vertoning.id, vertoning.zaal, vertoning.uur, vertoning.film.titel, "ACTIEF" ])
+    system("cls")
+    print (x)
+    input ("\n druk toets")
+   
 
 def ft_vertoning_drie_d_wisselen():
-    pass
+    while True :
+        jn=""
+        x = PrettyTable()
+        x.field_names=(["ID", "zaal", "uur", "Act/NON-Act", "filmtitel", "2D / 3D" ])
+        dm = Datamanager()
+        vertoning_list=[]
+        system ("cls")
+        print("       <b><GREEN>                                                    </GREEN></b>")
+        print("       <b><GREEN>             VERTONING 2D/3D WISSELEN               </GREEN></b>")
+        print("       <b><GREEN>                                                    </GREEN></b>")  
+        print("<green>\n  Als een vertoning 2D is kan je ze hier op 3D plaatsen\n\n  Geef de juiste waardes in!!! Let op hetgeen gevraagd wordt!! </green>")
+        print(" <green>\n  door ENTER te drukken verlaat u het menu</green>") 
+        vertoningen=dm.alle_actieve_vertoningen()
+        for vertoning in vertoningen :
+            x.add_row([vertoning.id, vertoning.zaal, vertoning.uur, vertoning.vertoning_actief, vertoning.film.titel, vertoning.drie_d ])
+            vertoning_list.append(vertoning.id)
+
+        print (x)
+        print (vertoning_list)
+        print ("\n<blue>  Welke vertoning (ID) moet 2D / 3D wisselen? </blue> ", end="")
+        vertoning_ID = input()
+        if not vertoning_ID :
+            break
+        #if not vertoning_ID :
+        #    break
+        vertoning_ID=controle_int(vertoning_ID)
+        while not vertoning_ID :
+            print ("\n<blue>  Welke vertoning (ID) moet 2D / 3D wisselen? </blue> ", end="")
+            vertoning_ID = input()
+            vertoning_ID=controle_int(vertoning_ID)
+            if not vertoning_ID :
+                continue            
+                
+        
+        if int(vertoning_ID) in vertoning_list :
+            vertoning=dm.vertoning_by_id(int(vertoning_ID))
+            #print ("HOERA")
+            #input()
+            print (f"<blue>   {vertoning} </blue><red>{'2D' if vertoning.drie_d=='2D' else '3D'}</red><blue> Wisselen in</blue> <red>{'3D' if vertoning.drie_d=='2D' else '2D'}</red> <blue>?? (j/n)</blue>", end ="")
+            jn=input ()
+            #print (jn)
+            #input()
+            jn=controle_jn(jn)
+            while not jn :
+                print (f"<blue>   {vertoning} </blue><red>{'2D' if vertoning.drie_d=='2D' else '3D'}</red><blue> Wisselen in</blue> <red>{'3D' if vertoning.drie_d=='2D' else '3D'}</red> <blue>?? (j/n)</blue>", end ="")
+                jn=input () 
+                jn = controle_jn(jn)               
+            if jn =="J":
+                if vertoning.drie_d == "2D":
+                    print (" <red> WISSELEN </red>")
+                    dm.set_vertoning_3D_by_id(int(vertoning_ID))
+                else :
+                    dm.set_vertoning_2D_by_id(int(vertoning_ID))
+
+
+def ft_alle_vertoningen_tonen():
+
+    x = PrettyTable()
+    x.field_names=(["ID", "zaal", "uur",  "filmtitel", "Act/NON-Act", "2D/3D"])
+    dm = Datamanager()
+    vertoningen = dm.alle_vertoningen()
+    
+    for vertoning in vertoningen :
+        x.add_row([vertoning.id, vertoning.zaal, vertoning.uur, vertoning.film.titel, vertoning.vertoning_actief, vertoning.drie_d ])
+    system("cls")
+    print (x)
+    input ("\n druk toets")
+    

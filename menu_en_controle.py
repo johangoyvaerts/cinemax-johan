@@ -37,7 +37,24 @@ def controle_jn(jn):
     if jn.upper() == "J" or jn.upper() == "N" :
         return jn.upper()
     else :
-        print ("<RED>CORRECTE KEUZE AUB</RED>")
-        sleep (0.5)
+        print ("<RED> CORRECTE KEUZE AUB j/n</RED>")
+        sleep (1)
         return None
+
+def controle_int(int_getal):
+#    if int_getal == int :
+#        return True
+#    else :
+#        print ("<RED>CORRECTE KEUZE AUB j/n</RED>")
+#        sleep (1)
+#        return 
+    try :
+        getal = int(int_getal)
+        return int_getal
+    except ValueError :
+        print ("<RED> CORRECTE INTEGER AUB </RED>")
+        sleep (1)
+        return None
+
+
     

@@ -5,7 +5,7 @@ import requests
 from models.film import Film
 from ansimarkup import ansiprint as print
 from time import sleep
-from menu_en_controle import controle_jn, menu_opbouw, menu_keuze_controle
+from menu_en_controle import controle_int, controle_jn, menu_opbouw, menu_keuze_controle
 from prettytable import PrettyTable
 
 # film toevoegen met de TMDB_id (te vinden op Themovierdb.org)
@@ -58,8 +58,8 @@ def ft_film_toevoegen():
                     jn=input()
                     jn=controle_jn(jn)
                     if not jn :
-                        break
-                    continue
+                        continue
+                    break
                 
                 if jn == "J":
                     print ("\n    WORDT TOEGEVOEGD!!   ", end="")
@@ -104,6 +104,12 @@ def ft_film_verwijderen_by_id():
         keuze = input()
         if keuze == "":
             break
+
+        keuze = controle_int(keuze)
+        while not keuze :
+            print ("<red>Maak uw keuze (ID) </red> (eindig met enter) ", end ="")
+            keuze = input()
+            keuze = controle_int(keuze)
         #
         # nagaan of de film in een vertoning is opgenomen
         # indien ja : niet verwijderen omdat er misschien tickets van verkocht zijn!!! 
@@ -127,8 +133,8 @@ def ft_film_verwijderen_by_id():
                 jn=input()
                 jn=controle_jn(jn)
                 if not jn :
-                    break
-                continue
+                    continue
+                break
     
             if jn == "J":
                 print ("\n <red>WORDT VERWIJDERD!!</red>")
@@ -188,8 +194,9 @@ def ft_film_verwijderen_by_MDB_id():
                 jn=input()
                 jn=controle_jn(jn)
                 if not jn :
+                    continue
+                else :
                     break
-                continue
     
             if jn == "J":
                 print ("\n <red>WORDT VERWIJDERD!!</red>")
