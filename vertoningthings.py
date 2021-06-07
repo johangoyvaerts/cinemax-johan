@@ -99,39 +99,45 @@ def ft_vertoning_verwijderen():
 
 
 def ft_vertoning_toevoegen():
-    ZALEN = [1, 2, 3, 4, 5, 6]
-    SETTING = ["2D","3D"]
-    VERT_ACT = ["AC", "NA"]
-    zaal = 0
-
-
+    
     while True :
         zaal = 0
         drie_d =""
+        film_id_list =[]
         vertoning_actief=""
         x = PrettyTable()
         dm = Datamanager()
-        while zaal not in ZALEN :
-            zaal = int(input("Geef een getal 1, 2, 3, 4, 5, 6 "))
-
-        
-        uur = int(input("uur"))
-        
-        drie_d = input ("2D/3D")
-        
-        vertoning_actief= input("AC/NC")
-        
+        zaal = input("Geef een zaal 1, 2, 3, 4, 5, 6 ")
+        uur = input("geef een uur formaat HHMM (vol uur of half uur)")
+        drie_d = input ("geef 2D of 3D")
+        vertoning_actief= "AC"
         films=dm.alle_films()
         for film in films :
             x.add_row([film.id, film.titel])
+            film_id_list.append(film.id)
         print (x)    
-        print ("selecteer film")
+        print (f"voor welke film maakt u een vertoning in zaal {zaal} om {uur} (GEEF DE ID!)", end="")
         film_id= input()
-        
         film= dm.film_by_id(film_id)
-        vertoning= Vertoning(zaal, uur, drie_d, vertoning_actief, film)
-        dm.vertoning_toevoegen(vertoning)
-        jn= input ("jn")
+        try :
+            vertoning= Vertoning(zaal, uur, drie_d, vertoning_actief, film)
+        except ValueError :
+            print ("GEEF de JUISTE WAARDES IN!!!")
+            continue
+        print (f" voor {film.titel.upper()} wil u een vertoning in zaal {vertoning.zaal} om {vertoning.uur}??")
+        jn = input ("TOEVOEGEN??? j/n")
+        #while jn.upper() != "J" or jn.upper() != "N":
+        #    print ("geef de juiste waarde aub? ")
+        #    jn = input ("TOEVOEGEN??? j/n ")
+        #    continue
+        if jn.upper() == "J" :
+            print ("toevoegen",end ="")
+            dm.vertoning_toevoegen(vertoning)
+            
+        else :
+            print ("vertoning wordt niet toegevoegd")
+            continue
+        jn= input ("nog vertoningen invoeren j/n? ")
         if jn == "n":
             break
 

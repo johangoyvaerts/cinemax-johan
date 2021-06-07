@@ -1,7 +1,7 @@
 from models.film import Film
 
 #CINEMAX heeft 6 zalen
-ZALEN = [1, 2, 3, 4, 5, 6]
+ZALEN = ["1", "2", "3", "4", "5", "6"]
 SETTING = ["2D","3D"]
 VERT_ACT = ["AC", "NA"]
 
@@ -35,8 +35,8 @@ class Vertoning:
     # uur moet op vol of 30min zijn!!
     @uur.setter
     def uur(self, uur):
-        minuten = uur%100
-        if (uur < 2400 or uur>0) and (minuten==30 or minuten==0):
+        minuten = int(uur)%100
+        if (int(uur) < 2400 or int(uur)>0) and (minuten==30 or minuten==0):
             self._uur = uur
         else :
             raise ValueError
