@@ -82,7 +82,10 @@ def ft_vertoning_verwijderen():
         # Enkel de film verwijderen als die in de DB zit!!!
         if int(keuze) in id_list :
             vertoning=dm.vertoning_by_id(int(keuze))
-            while True :
+            print (f"Wenst u {vertoning} toe te VERWIJDEREN. druk j/n ", end = "")
+            jn=input()
+            jn=controle_jn(jn)            
+            while not jn :
         
                 print (f"Wenst u {vertoning} toe te VERWIJDEREN. druk j/n ", end = "")
                 jn=input()
@@ -152,7 +155,7 @@ def ft_vertoning_toevoegen():
             sleep (2)
             continue
         print (f"\n  voor {film.titel.upper()} wil u een vertoning in zaal {vertoning.zaal} om {vertoning.uur}??")
-        print ("\n <red>TOEVOEGEN??? j/n </red>")
+        print ("\n TOEVOEGEN??? (j/n) ", end="")
         jn = input ()
         jn=controle_jn(jn)
         #while jn.upper() != "J" or jn.upper() != "N":

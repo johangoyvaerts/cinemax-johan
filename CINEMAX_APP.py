@@ -5,14 +5,14 @@ from menu_en_controle import menu_keuze_controle, menu_opbouw
 from prettytable import PrettyTable
 from ansimarkup import ansiprint as print
 #import requests
-from models.film import Film
-from DATA.datamanager import Datamanager
-from time import sleep
-import json
+#from models.film import Film
+#from DATA.datamanager import Datamanager
+#from time import sleep
+#import json
 from filmthings import ft_film_bewerken
 
 MDB_id = ""
-dm = Datamanager()
+#dm = Datamanager()
 
 
 rijteller =0 
