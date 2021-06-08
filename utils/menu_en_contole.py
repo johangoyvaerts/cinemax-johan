@@ -3,7 +3,11 @@ from ansimarkup import ansiprint as print
 from os import system
 from time import sleep
 
-
+def get_api_key():
+    with open ("api_key.txt") as bestand :
+        api_key = bestand.readline()
+        #print (api_key)
+    return api_key
 
 
 def menu_opbouw ( kolom_head ,lijst) :

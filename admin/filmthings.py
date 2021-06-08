@@ -5,15 +5,16 @@ import requests
 from models.film import Film
 from ansimarkup import ansiprint as print
 from time import sleep
-from menu_en_controle import controle_int, controle_jn, menu_opbouw, menu_keuze_controle
+#from menu_en_controle import controle_int, controle_jn, menu_opbouw, menu_keuze_controle
 from prettytable import PrettyTable
+from utils.menu_en_contole import controle_int, controle_jn, menu_opbouw, menu_keuze_controle,get_api_key
 
 # film toevoegen met de TMDB_id (te vinden op Themovierdb.org)
-def get_api_key():
-    with open ("api_key.txt") as bestand :
-        api_key = bestand.readline()
-        #print (api_key)
-    return api_key
+#def get_api_key():
+#    with open ("api_key.txt") as bestand :
+#        api_key = bestand.readline()
+#        #print (api_key)
+#    return api_key
 
 # print (api_key)
 def ft_film_toevoegen():
@@ -91,7 +92,7 @@ def ft_film_verwijderen_by_id():
         films=dm.alle_films()
         for film in films :
             x.add_row([film.id, film.titel])
-            # MAAK THEVENS EEN LIJST VAN ALLE ID SIE IN DE DB ZITTEN
+            # MAAK THEVENS EEN LIJST VAN ALLE ID DIE IN DE DB ZITTEN
             id_list.append(film.id)
         system("cls")
         print (x)
@@ -213,9 +214,80 @@ def ft_film_verwijderen_by_MDB_id():
 
     return
 
+    
+def ft_film_KNT_KT_wisselen():
+    while True :
+        jn=""
+        x = PrettyTable()
+        x.field_names=(["ID",  "filmtitel", "KT/KNT"])
+        
+        dm = Datamanager()
+        film_list=[]
+        kt='   '+'<green>KT</green>'+'     '
+        knt='KNT'
+        system ("cls")
+        print("       <b><GREEN>                                                    </GREEN></b>")
+        print("       <b><GREEN>        FILM KT/KNT WISSELEN         </GREEN></b>")
+        print("       <b><GREEN>                                                    </GREEN></b>")  
+        print("<green>\n  Als een fim 'kinderen toegelaten' (KT) is kan je ze hier op 'Kinderen niet Toegelaten' (KNT) plaatsen\n\n  Geef de juiste waardes in!!! Let op hetgeen gevraagd wordt!! </green>")
+        print(" <green>\n  door ENTER te drukken verlaat u het menu</green>") 
+        films =dm.alle_films()
+        for film in films :
+            x.add_row([film.id, film.titel, '<green>KT</green>' if film.knt =="KT" else "<red>KNT</red>" ])
+            film_list.append(film.id)
+
+        print (x)
+        #print (film_list)
+        print ("\n<blue>  Welke film (ID) moet KT/KNT wisselen ? </blue> ", end="")
+        film_ID = input()
+        if not film_ID :
+            break
+        #if not vertoning_ID :
+        #    break
+        film_ID=controle_int(film_ID)
+        while not film_ID :
+            print ("\n<blue>  Welke film (ID) moet KT/KNT wisselen ? </blue> ", end="")
+            film_ID = input()
+            film_ID=controle_int(film_ID)
+            if not film_ID :
+                continue            
+                
+        
+        if int(film_ID) in film_list :
+            film=dm.film_by_id(int(film_ID))
+            #print ("HOERA")
+            #input()
+            print (f"<blue>   {film} </blue><red>{'KT' if film.knt=='KT' else 'KNT'}</red><blue> Wisselen in</blue> <red>{'KNT' if film.knt=='KT' else 'KT'}</red> <blue>?? (j/n)</blue>", end ="")
+            jn=input ()
+            #print (jn)
+            #input()
+            jn=controle_jn(jn)
+            while not jn :
+                print (f"<blue>   {film} </blue><red>{'KT' if film.knt=='KT' else 'KNT'}</red><blue> Wisselen in</blue> <red>{'KNT' if film.knt=='KT' else 'KT'}</red> <blue>?? (j/n)</blue>", end ="")
+                jn=input () 
+                jn = controle_jn(jn)               
+            if jn =="J":
+                if film.knt == "KT":
+                    print (" <red> WISSELEN </red>")
+                    dm.set_film_KNT_by_id(int(film_ID))
+                else :
+                    print (" <red> WISSELEN </red>")
+                    dm.set_film_KT_by_id(int(film_ID))
+#            else :
+#                continue
+#        print ("<blue>\n   Nog wisselen Actief, Non-actief ?? (j/n) </blue>", end ="")
+#        jn = input()
+#        jn = controle_jn(jn)
+#        if jn == "N":
+#            break
+
+
+#    pass
+
+
 def ft_film_bewerken():
     while True:
-        TO_DO_list= ["Film toevoegen",  "film verwijderen by id", "film verwijderen by TMDB id"]
+        TO_DO_list= ["Film toevoegen",  "film verwijderen by id", "film verwijderen by TMDB id", "film KT/KNT wisselen"]
         TO_DO_list_header = ["keuze", "WAT WIL JE DOEN"]
         system ('cls')    
         x, rijteller = menu_opbouw (TO_DO_list_header, TO_DO_list)
@@ -231,5 +303,6 @@ def ft_film_bewerken():
             ft_film_verwijderen_by_id()
         if keuze =="3":
             ft_film_verwijderen_by_MDB_id()
-        
+        if keuze =="4":
+            ft_film_KNT_KT_wisselen()
 

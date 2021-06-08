@@ -1,15 +1,10 @@
 from os import system
-from ticketthings import ft_tickets_bewerken
-from vertoningthings import ft_vertoning_bewerken
-from menu_en_controle import menu_keuze_controle, menu_opbouw
 from prettytable import PrettyTable
 from ansimarkup import ansiprint as print
-#import requests
-#from models.film import Film
-#from DATA.datamanager import Datamanager
-#from time import sleep
-#import json
-from filmthings import ft_film_bewerken
+from utils.menu_en_contole import menu_keuze_controle, menu_opbouw
+from admin.filmthings import ft_film_bewerken
+from admin.vertoningthings import ft_vertoning_bewerken
+from admin.ticketthings import ft_tickets_bewerken
 
 MDB_id = ""
 #dm = Datamanager()

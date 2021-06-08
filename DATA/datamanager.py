@@ -79,6 +79,15 @@ class Datamanager :
             else :
                 raise ValueError
 
+    def set_film_KT_by_id(self,id):
+        with dbconn() as cur :
+            sql = "UPDATE films SET knt = 'KT' WHERE id = ?"
+            cur.execute (sql, [id])
+
+    def set_film_KNT_by_id(self,id):
+        with dbconn() as cur :
+            sql = "UPDATE films SET knt = 'KNT' WHERE id = ?"
+            cur.execute (sql, [id])
 
     #
     # VERTONINGEN

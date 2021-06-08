@@ -5,7 +5,8 @@ import prettytable
 from DATA.datamanager import Datamanager
 from prettytable import PrettyTable
 from time import sleep
-from menu_en_controle import controle_int, menu_keuze_controle, menu_opbouw, controle_jn
+#from menu_en_controle import controle_int, menu_keuze_controle, menu_opbouw, controle_jn
+from utils.menu_en_contole import controle_int, menu_keuze_controle, menu_opbouw, controle_jn
 
 
 
