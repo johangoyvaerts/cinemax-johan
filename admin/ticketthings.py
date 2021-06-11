@@ -147,6 +147,7 @@ def ft_ticket_verkopen():
                         print_opdrachtregel("geef het aantal kinderen")
                         aant_kind = input()
                         aant_kind=controle_int(aant_kind) 
+                #indien KNT dan prijs kind op nul
                 else : 
                     prijs_kind= 0
 
@@ -164,11 +165,13 @@ def ft_ticket_verkopen():
                     jn=controle_jn(jn)
                 ticket = Ticket(datum,str(prijs_volw), str(prijs_kind), str(aant_volw),str(aant_kind), vertoning)
                 if jn == 'J':
-                    print ("<red> wordt toegevoegd</red>")
+                    system('cls')
+                    print (f"<red> {ticket.vertoning.film.titel} wordt toegevoegd</red>")
                     #ticket = Ticket(datum,prijs_volw, prijs_kind, aant_volw,aant_kind, vertoning)
                     dm.ticket_toevoegen(ticket)
                     print_opdrachtregel("\n Even Wachten")
                     sleep (1)
+                    system ('cls')
                     print ("<red>ticket printen? j/n</red>")
                     jn=input()
                     jn=controle_jn(jn)
