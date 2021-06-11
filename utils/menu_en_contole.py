@@ -67,4 +67,17 @@ def print_titel(titel):
 
 def print_opdrachtregel (opdracht):
     print ("\n<i>"+opdracht+"</i>")
+
+
+def bepaal_prijs (vertoning):
+    prijs_volw = 9
+    prijs_kind = 7
+    if vertoning.film.duur > 120 :
+        prijs_volw +=1
+        prijs_kind +=1
+    if vertoning.drie_d == "3D":
+        prijs_volw += 1.5
+        prijs_kind += 1.5
+
+    return prijs_volw, prijs_kind
     

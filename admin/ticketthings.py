@@ -1,10 +1,13 @@
 from os import system 
-from utils.menu_en_contole import controle_int, print_opdrachtregel, print_titel, menu_opbouw, menu_keuze_controle
+from utils.menu_en_contole import controle_int, controle_jn, print_opdrachtregel, print_titel, menu_opbouw, menu_keuze_controle, bepaal_prijs
 from prettytable import PrettyTable
 from DATA.datamanager import Datamanager
 from models.film import Film
 from ansimarkup import ansiprint as print
 from time import sleep
+from datetime import date, datetime
+import locale
+locale.setlocale(locale.LC_ALL,"")
 
 
 
@@ -31,11 +34,12 @@ def ft_ticket_bewerken():
 def ft_ticket_verkopen():
     
     while True :
-        
+        aant_kind = 0
+        aant_volw = 0        
         ticket_id_list =[]
         film_id_list = []
         vertoning_id_list=[]
-        film_list = []
+
         x = PrettyTable()
 
         x.field_names=['ID', "film titel"]
@@ -83,13 +87,13 @@ def ft_ticket_verkopen():
             
             vertoningen = dm.vertoning_by_film_id(int(film_id))
             x=PrettyTable()
-            x.field_names = ["id","zaal","uur"]
+            x.field_names = ["id","zaal","uur", "KNT"]
             for vertoning in vertoningen :
                 
                 #
                 # toon al de vertoningen van vandaag van de film
                 vertoning_id_list.append(vertoning.id)
-                x.add_row([vertoning.id,vertoning.zaal, vertoning.uur])
+                x.add_row([vertoning.id,vertoning.zaal, vertoning.uur, vertoning.film.knt])
                 
             print (x)
             print (vertoning_id_list)
@@ -108,7 +112,45 @@ def ft_ticket_verkopen():
                 vertoning_id=input()
                 vertoning_id=controle_int(vertoning_id) 
             vertoning = dm.vertoning_by_id(vertoning_id)
+            
+            system ('cls')
             print (vertoning)
+            print_titel ("TICKETVERKOOP")
+            prijs_volw, prijs_kind = bepaal_prijs (vertoning)
+            print_opdrachtregel("geef het aantal volwassenen")
+            aant_volw = input()
+            aant_volw=controle_int(aant_volw)
+            while not aant_volw :
+                print_opdrachtregel("geef het aantal volwassenen")
+                aant_volw = input()
+                aant_volw=controle_int(aant_volw)                
+            if vertoning.film.knt == 'KT':
+                print_opdrachtregel("geef het aantal kinderen")
+                aant_kind = input()
+                while not aant_volw :
+                    print_opdrachtregel("geef het aantal kinderen")
+                    aant_kind = input()
+                    aant_kind=controle_int(aant_kind) 
+
+            prijs = int(aant_kind)*prijs_kind+ int(aant_volw)*prijs_volw
+            print (prijs_volw,aant_volw)
+            
+            print (f"totaal ", prijs)
+            print_opdrachtregel (f"verkoop {vertoning} ?")
+            jn = input()
+            jn = controle_jn (jn)
+            while not jn :
+        
+                print (f"verkoop {vertoning} ?")
+                jn=input()
+                jn=controle_jn(jn)
+            
+
+            
+
+            
+
+
             sleep (5)
 
 
