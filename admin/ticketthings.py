@@ -5,6 +5,7 @@ from DATA.datamanager import Datamanager
 from models.film import Film
 from ansimarkup import ansiprint as print
 from time import sleep
+from models.ticket import Ticket
 from datetime import date, datetime
 import locale
 locale.setlocale(locale.LC_ALL,"")
@@ -32,8 +33,12 @@ def ft_ticket_bewerken():
         
 
 def ft_ticket_verkopen():
+
     
     while True :
+        vandaag = datetime.now()
+        datum = vandaag.strftime("%Y-%m-%d")
+ 
         aant_kind = 0
         aant_volw = 0        
         ticket_id_list =[]
@@ -42,7 +47,7 @@ def ft_ticket_verkopen():
 
         x = PrettyTable()
 
-        x.field_names=['ID', "film titel"]
+        x.field_names=['ID', "film titel", "duur", "KT/KNT"]
 
         dm = Datamanager()
         system ("cls")
@@ -61,10 +66,11 @@ def ft_ticket_verkopen():
             # toon de actieve films slechts 1 maal (sppelt misschien in meerdere zalen en tijdstippen...)
             if vertoning.film.id not in film_id_list :
                 film_id_list.append(vertoning.film.id)
-                x.add_row([vertoning.film.id,vertoning.film.titel])
+                x.add_row([vertoning.film.id,vertoning.film.titel,vertoning.film.duurtijd, "NO-KIDS" if vertoning.film.knt=="KNT" else "KIDS Allowed"])
             #print (dm.film_by_id(vertoning.film.id))
+        x.sortby="film titel"
         print (x)
-        print (film_id_list)
+        #print (film_id_list)
         print_opdrachtregel("geef de ID van de film die je wil kijken")
         film_id=input()
         #
@@ -94,9 +100,11 @@ def ft_ticket_verkopen():
                 # toon al de vertoningen van vandaag van de film
                 vertoning_id_list.append(vertoning.id)
                 x.add_row([vertoning.id,vertoning.zaal, vertoning.uur, vertoning.film.knt])
-                
+            x.sortby="uur"    
+            system ('cls')
+            print_titel(f" {vertoning.film.titel} ZAALKEUZE ")
             print (x)
-            print (vertoning_id_list)
+            #print (vertoning_id_list)
             print_opdrachtregel("geef de ID van de vertoning die je wil kijken")
             vertoning_id=input()
             #
@@ -107,59 +115,85 @@ def ft_ticket_verkopen():
             # controleren of vertoning_id een integer is
             #  
             vertoning_id=controle_int(vertoning_id)
-            while not film_id :
-                print_opdrachtregel("geef de ID van de film die je wil kijken")
+            # als de vertoning niet in de lijst van vertoningen zit...
+            #if int(vertoning_id) not in vertoning_id_list :
+            #    vertoning_id=None
+            while not vertoning_id or (int(vertoning_id) not in vertoning_id_list):
+                print_opdrachtregel("geef de ID van de vertoning die je wil kijken")
                 vertoning_id=input()
                 vertoning_id=controle_int(vertoning_id) 
-            vertoning = dm.vertoning_by_id(vertoning_id)
-            
-            system ('cls')
-            print (vertoning)
-            print_titel ("TICKETVERKOOP")
-            prijs_volw, prijs_kind = bepaal_prijs (vertoning)
-            print_opdrachtregel("geef het aantal volwassenen")
-            aant_volw = input()
-            aant_volw=controle_int(aant_volw)
-            while not aant_volw :
+            #    if int(vertoning_id) not in vertoning_id_list :
+            #        vertoning_id=None
+            #while vertoning_id not in vertoning_id_list :
+            # de volgende if is niet nodig!!!
+            # op deze plaats zit de vertoning_id zowiezo in de vertoning_id_list    
+            if int(vertoning_id) in vertoning_id_list:
+                vertoning = dm.vertoning_by_id(vertoning_id)
+                system ('cls')
+                print (vertoning)
+                print_titel ("TICKETVERKOOP")
+                prijs_volw, prijs_kind = bepaal_prijs (vertoning)
                 print_opdrachtregel("geef het aantal volwassenen")
                 aant_volw = input()
-                aant_volw=controle_int(aant_volw)                
-            if vertoning.film.knt == 'KT':
-                print_opdrachtregel("geef het aantal kinderen")
-                aant_kind = input()
+                aant_volw=controle_int(aant_volw)
                 while not aant_volw :
+                    print_opdrachtregel("geef het aantal volwassenen")
+                    aant_volw = input()
+                    aant_volw=controle_int(aant_volw)                
+                if vertoning.film.knt == 'KT':
                     print_opdrachtregel("geef het aantal kinderen")
                     aant_kind = input()
-                    aant_kind=controle_int(aant_kind) 
+                    while not aant_volw :
+                        print_opdrachtregel("geef het aantal kinderen")
+                        aant_kind = input()
+                        aant_kind=controle_int(aant_kind) 
+                else : 
+                    prijs_kind= 0
 
-            prijs = int(aant_kind)*prijs_kind+ int(aant_volw)*prijs_volw
-            print (prijs_volw,aant_volw)
-            
-            print (f"totaal ", prijs)
-            print_opdrachtregel (f"verkoop {vertoning} ?")
-            jn = input()
-            jn = controle_jn (jn)
-            while not jn :
-        
-                print (f"verkoop {vertoning} ?")
-                jn=input()
-                jn=controle_jn(jn)
-            
+                prijs = int(aant_kind)*prijs_kind+ int(aant_volw)*prijs_volw
+                #print (prijs_volw,aant_volw)
 
-            
+                print (f"totaal :   ", f"{prijs:5.2f}   ", datum)
+                print_opdrachtregel (f"verkoop {vertoning} j/n?")
+                jn = input()
+                jn = controle_jn (jn)
+                while not jn :
+                
+                    print (f"verkoop {vertoning} j/n?")
+                    jn=input()
+                    jn=controle_jn(jn)
+                ticket = Ticket(datum,str(prijs_volw), str(prijs_kind), str(aant_volw),str(aant_kind), vertoning)
+                if jn == 'J':
+                    print ("<red> wordt toegevoegd</red>")
+                    #ticket = Ticket(datum,prijs_volw, prijs_kind, aant_volw,aant_kind, vertoning)
+                    dm.ticket_toevoegen(ticket)
+                    print_opdrachtregel("\n Even Wachten")
+                    sleep (1)
+                    print ("<red>ticket printen? j/n</red>")
+                    jn=input()
+                    jn=controle_jn(jn)
+                    while not jn :
+                        print ("<red>ticket printen? j/n</red>")
+                        jn=input()
+                        jn=controle_jn(jn)
+                    system ('cls')
+                    print (ticket)
+                    print_opdrachtregel("\n Even Wachten")
+                    sleep (4)
 
-            
-
-
-            sleep (5)
+                else :
+                    print (f"{ticket} <red>wordt niet toegevoegd!!!</red>")
+                    print_opdrachtregel("\n Even Wachten")
+                    sleep (2)
+       
 
 
         else :
             print ("deze film speelt niet maakt korrecte keuze aub!!!")
             sleep (2) 
             continue   
-        print (film_id)
-        break
+        
+       
 """        
         
         print ("\n<blue>Geef een uur formaat HH00 of HH30 : </blue>", end ="")

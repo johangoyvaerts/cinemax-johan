@@ -33,7 +33,7 @@ class Ticket :
         
     @aant_volw.setter
     def aant_volw(self,aant_volw):
-        if type(aant_volw)==int :
+        if type(aant_volw)==str :
             self._aant_volw=aant_volw
         else :
             raise ValueError    
@@ -44,7 +44,7 @@ class Ticket :
         
     @aant_kind.setter
     def aant_kind(self,aant_kind):
-        if type(aant_kind)==int :
+        if type(aant_kind)==str :
             self._aant_kind=aant_kind
         else :
             raise ValueError
@@ -66,11 +66,11 @@ class Ticket :
     #prijs per ticket
     @property
     def prijs_ticket (self):
-        return self.prijs_volw*self.aant_volw+self.prijs_kind*self._aant_kind
+        return float(self.prijs_volw)*int(self.aant_volw)+float(self.prijs_kind)*int(self._aant_kind)
 
 
     def __str__(self):
-        return f" ticket gekocht op {self.datum} \n VOLWASENEN {self.aant_volw:>3d} à {self.prijs_volw:>5.2f}€ = {self.prijs_volw*self.aant_volw:>5.2f}€ \n KINDEREN   {self.aant_kind:>3d} à {self.prijs_kind:>5.2f}€ = {self.prijs_kind*self.aant_kind:>5.2f}€\n TOTAAL                    {self.prijs_ticket:>5.2f}€\n {self.vertoning.film}\n zaal {self.vertoning.zaal} om {self.vertoning.uur}h"
+        return f" TICKET    datum = {self.datum} \n VOLWASENEN {int(self.aant_volw):>3d} à {float(self.prijs_volw):>5.2f}€ = {float(self.prijs_volw)*int(self.aant_volw):>5.2f}€ \n KINDEREN   {int(self.aant_kind):>3d} à {float(self.prijs_kind):>5.2f}€ = {float(self.prijs_kind)*int(self.aant_kind):>5.2f}€\n TOTAAL                    {float(self.prijs_ticket):>5.2f}€\n {self.vertoning.film}\n zaal {self.vertoning.zaal} om {self.vertoning.uur}h"
 
 
 
