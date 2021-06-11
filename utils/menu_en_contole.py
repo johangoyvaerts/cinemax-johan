@@ -10,7 +10,7 @@ def get_api_key():
     return api_key
 
 
-def menu_opbouw ( kolom_head ,lijst) :
+def menu_opbouw ( kolom_head ,lijst, afsluiten) :
     x=PrettyTable()
     x.field_names=(kolom_head)
     rijteller=0
@@ -18,7 +18,7 @@ def menu_opbouw ( kolom_head ,lijst) :
         rijteller+=1
         x.add_row ([rijteller, rij])
         
-    x.add_row([0, "   AFSLUITEN   "])
+    x.add_row([0, afsluiten])
     
     return x, rijteller
 
@@ -60,5 +60,11 @@ def controle_int(int_getal):
         sleep (1)
         return None
 
+def print_titel(titel):
+    print ("\n             "+titel+"           \n")
+    return
 
+
+def print_opdrachtregel (opdracht):
+    print ("\n<i>"+opdracht+"</i>")
     

@@ -158,12 +158,15 @@ class Datamanager :
         with dbconn() as cur :
             sql = "SELECT vertoningen.*, films.* FROM vertoningen INNER JOIN films ON vertoningen.films_id = films.id  WHERE vertoningen.films_id = ?"
             cur.execute (sql, [id])
-            rij = cur.fetchone()
-            if rij :
-                vertoning = Vertoning.from_dict(rij)
-                return vertoning
-            else :
-                return None    
+            rijen = cur.fetchall()
+            vertoningen = [Vertoning.from_dict(rij) for rij in rijen]
+            return vertoningen
+
+#            if rij :
+#                vertoning = Vertoning.from_dict(rij)
+#                return vertoning
+#            else :
+#                return None    
             
     #
     #  VERTONINGEN bewerken

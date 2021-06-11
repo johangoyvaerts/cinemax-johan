@@ -6,7 +6,7 @@ from DATA.datamanager import Datamanager
 from prettytable import PrettyTable
 from time import sleep
 #from menu_en_controle import controle_int, menu_keuze_controle, menu_opbouw, controle_jn
-from utils.menu_en_contole import controle_int, menu_keuze_controle, menu_opbouw, controle_jn
+from utils.menu_en_contole import controle_int, menu_keuze_controle, menu_opbouw, controle_jn, print_opdrachtregel, print_titel
 
 
 
@@ -14,10 +14,12 @@ def ft_vertoning_bewerken():
     while True:
         TO_DO_list= ["Vertoning Verwijderen",  "Vertoning Toevoegen", "Wissel Actief/Non-actief",  "Wissel 2D/3D", "Actieve vertoningen tonen","Alle vertoningen tonen"]
         TO_DO_list_header = ["keuze", "WAT WIL JE DOEN"]
+        afsluiten="TERUG NAAR HOODFDMENU"
         system ('cls')    
-        x, rijteller = menu_opbouw (TO_DO_list_header, TO_DO_list)
+        print_titel ("VERTONING BEWERKEN")
+        x, rijteller = menu_opbouw (TO_DO_list_header, TO_DO_list, afsluiten)
         print (x)
-        print (f"<blue>MAAK UW KEUZE AUB (tussen 0 en {rijteller}) </blue>", end = "")
+        print_opdrachtregel (f"MAAK UW KEUZE AUB (tussen 0 en {rijteller}) ")
         keuze = input()
         menu_keuze_controle(rijteller, keuze)
         if keuze == "0":
@@ -63,20 +65,22 @@ def ft_vertoning_verwijderen():
             # MAAK THEVENS EEN LIJST VAN ALLE ID SIE IN DE DB ZITTEN
             id_list.append(vertoning.id)
         system("cls")
+        print_titel ("VERTONING VERWIJDEREN")
         print (x)
+        
 
         #
         # GEEF DE ID VAN DE FILM DIE VERWIJDERD MOET WORDEN
         #
         print ("<red>Welke vertoning moet worden verwijderd ")
-        print ("<red>Maak uw keuze (ID) </red> (eindig met enter) ", end ="")
+        print_opdrachtregel ("Maak uw keuze (ID)  (eindig met enter) ")
         keuze = input()
         if keuze == "":
             break
 
         keuze = controle_int(keuze)
         while not keuze :
-            print ("<red>Maak uw keuze (ID) </red> (eindig met enter) ", end ="")
+            print_opdrachtregel ("Maak uw keuze (ID)  (eindig met enter) ")
             keuze = input()
             keuze = controle_int(keuze)
 
@@ -121,9 +125,7 @@ def ft_vertoning_toevoegen():
         x = PrettyTable()
         dm = Datamanager()
         system ("cls")
-        print("       <b><GREEN>                                    </GREEN></b>")
-        print("       <b><GREEN>        VERTONING TOEVOEGEN         </GREEN></b>")
-        print("       <b><GREEN>                                    </GREEN></b>")
+        print_titel ("VERTONING TOEVOEGEN")
         print("<green>\n LET OP\n\n geef de juiste waardes in!!! let op hetgeen gevraagd wordt!!\n\n een ingegeven vertoning is <b>steeds AKTIEF!!</b></green>")
         print(" <green>\n door ENTER te drukken verlaat u het menu</green>")
         print("\n<blue>Geef een zaal 1, 2, 3, 4, 5, 6 : </blue>", end="")
@@ -159,10 +161,6 @@ def ft_vertoning_toevoegen():
         print ("\n TOEVOEGEN??? (j/n) ", end="")
         jn = input ()
         jn=controle_jn(jn)
-        #while jn.upper() != "J" or jn.upper() != "N":
-        #    print ("geef de juiste waarde aub? ")
-        #    jn = input ("TOEVOEGEN??? j/n ")
-        #    continue
         if jn == "J" :
             print (f"\n<green> {vertoning} TOEVOEGEN !</green>")
             dm.vertoning_toevoegen(vertoning)
@@ -190,9 +188,8 @@ def ft_vertoning_actief_non_maken():
         dm = Datamanager()
         vertoning_list=[]
         system ("cls")
-        print("       <b><GREEN>                                                    </GREEN></b>")
-        print("       <b><GREEN>        VERTONING ACTEF/NON-ACTIEF WISSELEN         </GREEN></b>")
-        print("       <b><GREEN>                                                    </GREEN></b>")  
+        print_titel ("VERTONING ACTEF/NON-ACTIEF WISSELEN ")
+        
         print("<green>\n  Als een vertoning ACTIEF is kan je ze hier op Non-Actief plaatsen\n\n  Geef de juiste waardes in!!! Let op hetgeen gevraagd wordt!! </green>")
         print(" <green>\n  door ENTER te drukken verlaat u het menu</green>") 
         vertoningen=dm.alle_vertoningen()
@@ -236,16 +233,7 @@ def ft_vertoning_actief_non_maken():
                     dm.set_vertoning_non_actief_by_id(int(vertoning_ID))
                 else :
                     dm.set_vertoning_actief_by_id(int(vertoning_ID))
-#            else :
-#                continue
-#        print ("<blue>\n   Nog wisselen Actief, Non-actief ?? (j/n) </blue>", end ="")
-#        jn = input()
-#        jn = controle_jn(jn)
-#        if jn == "N":
-#            break
 
-
-#    pass
 
 def ft_vertoning_actief_tonen():
 
@@ -257,6 +245,7 @@ def ft_vertoning_actief_tonen():
     for vertoning in vertoningen :
         x.add_row([vertoning.id, vertoning.zaal, vertoning.uur, vertoning.film.titel, "ACTIEF" ])
     system("cls")
+    print_titel("ACTIEVE VERTONINGEN TONEN")
     print (x)
     input ("\n druk toets")
    
@@ -269,9 +258,8 @@ def ft_vertoning_drie_d_wisselen():
         dm = Datamanager()
         vertoning_list=[]
         system ("cls")
-        print("       <b><GREEN>                                                    </GREEN></b>")
-        print("       <b><GREEN>             VERTONING 2D/3D WISSELEN               </GREEN></b>")
-        print("       <b><GREEN>                                                    </GREEN></b>")  
+        print_titel("VERTONING 2D/3D WISSELEN")
+        
         print("<green>\n  Als een vertoning 2D is kan je ze hier op 3D plaatsen\n\n  Geef de juiste waardes in!!! Let op hetgeen gevraagd wordt!! </green>")
         print(" <green>\n  door ENTER te drukken verlaat u het menu</green>") 
         vertoningen=dm.alle_actieve_vertoningen()
@@ -327,6 +315,7 @@ def ft_alle_vertoningen_tonen():
     for vertoning in vertoningen :
         x.add_row([vertoning.id, vertoning.zaal, vertoning.uur, vertoning.film.titel, vertoning.vertoning_actief, vertoning.drie_d ])
     system("cls")
+    print_titel("ALLE VERTONINGEN TONEN")
     print (x)
     input ("\n druk toets")
     

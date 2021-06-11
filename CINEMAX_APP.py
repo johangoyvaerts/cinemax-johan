@@ -1,10 +1,10 @@
 from os import system
 from prettytable import PrettyTable
 from ansimarkup import ansiprint as print
-from utils.menu_en_contole import menu_keuze_controle, menu_opbouw
+from utils.menu_en_contole import menu_keuze_controle, menu_opbouw, print_opdrachtregel, print_titel
 from admin.filmthings import ft_film_bewerken
 from admin.vertoningthings import ft_vertoning_bewerken
-from admin.ticketthings import ft_tickets_bewerken
+from admin.ticketthings import ft_ticket_bewerken
 
 MDB_id = ""
 #dm = Datamanager()
@@ -17,10 +17,12 @@ while True :
 
     TO_DO_list= ["Film bewerken",  "Vertoningen bewerken", "Tickets bewerken"]
     TO_DO_list_header = ["keuze", "WAT WIL JE DOEN"]
-    system ('cls')    
-    x, rijteller = menu_opbouw (TO_DO_list_header, TO_DO_list)
+    afsluiten="AFSLUITEN"
+    system ('cls') 
+    print_titel("HOOFDMENU") 
+    x, rijteller = menu_opbouw (TO_DO_list_header, TO_DO_list, afsluiten)
     print (x)
-    print (f"<blue>MAAK UW KEUZE AUB (tussen 0 en {rijteller} ) </blue>", end = "")
+    print_opdrachtregel(f"MAAK UW KEUZE AUB (tussen 0 en {rijteller} ) ")
     keuze = input()
     menu_keuze_controle(rijteller, keuze)
     if keuze == "0":
@@ -31,6 +33,6 @@ while True :
         ft_vertoning_bewerken()
 
     if keuze =="3":
-        ft_tickets_bewerken()
+        ft_ticket_bewerken()
 
-    
+    #33
