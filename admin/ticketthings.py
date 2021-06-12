@@ -28,6 +28,9 @@ def ft_ticket_bewerken():
             break
         if keuze == "1":
             ft_ticket_verkopen()
+        if keuze == "2":
+            ft_ticket_verwijderen()
+
 
             
         
@@ -53,8 +56,8 @@ def ft_ticket_verkopen():
         system ("cls")
         print_titel ("Ticket VErkopen")
 
-        print("<green>\n LET OP\n\n geef de juiste waardes in!!! let op hetgeen gevraagd wordt!!\n </green>")
-        print(" <green>\n door ENTER te drukken verlaat u het menu</green>")
+        print("<green>\n LET OP\n\n geef de juiste waardes in!!! let op hetgeen gevraagd wordt!! </green>")
+        print(" <green>\n door ENTER te drukken verlaat u het menu</green>\n")
         #
         # toon alle actieve vertoningen
         #
@@ -91,15 +94,15 @@ def ft_ticket_verkopen():
         #
         if int(film_id) in film_id_list :
             
-            vertoningen = dm.vertoning_by_film_id(int(film_id))
+            vertoningen = dm.vertoning_actief_by_film_id(int(film_id))
             x=PrettyTable()
-            x.field_names = ["id","zaal","uur", "KNT"]
+            x.field_names = ["id","zaal","uur", "KNT", "2D/3D"]
             for vertoning in vertoningen :
                 
                 #
                 # toon al de vertoningen van vandaag van de film
                 vertoning_id_list.append(vertoning.id)
-                x.add_row([vertoning.id,vertoning.zaal, vertoning.uur, vertoning.film.knt])
+                x.add_row([vertoning.id,vertoning.zaal, vertoning.uur, vertoning.film.knt, vertoning.drie_d])
             x.sortby="uur"    
             system ('cls')
             print_titel(f" {vertoning.film.titel} ZAALKEUZE ")
@@ -133,6 +136,8 @@ def ft_ticket_verkopen():
                 print (vertoning)
                 print_titel ("TICKETVERKOOP")
                 prijs_volw, prijs_kind = bepaal_prijs (vertoning)
+                print (f"{prijs_volw:>5.2f}€/VOLW.    ", end="")
+                print(f"{prijs_kind:>5.2f}€/KIND" if vertoning.film.knt == "KT" else "")
                 print_opdrachtregel("geef het aantal volwassenen")
                 aant_volw = input()
                 aant_volw=controle_int(aant_volw)
@@ -179,10 +184,11 @@ def ft_ticket_verkopen():
                         print ("<red>ticket printen? j/n</red>")
                         jn=input()
                         jn=controle_jn(jn)
-                    system ('cls')
-                    print (ticket)
-                    print_opdrachtregel("\n Even Wachten")
-                    sleep (4)
+                    if jn == "J":
+                        system ('cls')
+                        print (ticket)
+                        print_opdrachtregel("\n Even Wachten")
+                        sleep (4)
 
                 else :
                     print (f"{ticket} <red>wordt niet toegevoegd!!!</red>")
@@ -196,7 +202,10 @@ def ft_ticket_verkopen():
             sleep (2) 
             continue   
         
-       
+
+
+def ft_ticket_verwijderen():
+    pass
 """        
         
         print ("\n<blue>Geef een uur formaat HH00 of HH30 : </blue>", end ="")

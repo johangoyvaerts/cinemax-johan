@@ -162,6 +162,13 @@ class Datamanager :
             vertoningen = [Vertoning.from_dict(rij) for rij in rijen]
             return vertoningen
 
+    def vertoning_actief_by_film_id(self,id):
+        with dbconn() as cur :
+            sql = "SELECT vertoningen.*, films.* FROM vertoningen INNER JOIN films ON vertoningen.films_id = films.id  WHERE vertoningen.vertoning_actief = 'AC' and vertoningen.films_id = ?"
+            cur.execute (sql, [id])
+            rijen = cur.fetchall()
+            vertoningen = [Vertoning.from_dict(rij) for rij in rijen]
+            return vertoningen
 #            if rij :
 #                vertoning = Vertoning.from_dict(rij)
 #                return vertoning
