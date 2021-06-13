@@ -9,6 +9,7 @@ from models.ticket import Ticket
 from datetime import date, datetime
 import locale
 locale.setlocale(locale.LC_ALL,"")
+import csv
 
 
 
@@ -31,9 +32,6 @@ def ft_ticket_bewerken():
         if keuze == "2":
             ft_ticket_verwijderen()
 
-
-            
-        
 
 def ft_ticket_verkopen():
 
@@ -203,54 +201,90 @@ def ft_ticket_verkopen():
             continue   
         
 
-
 def ft_ticket_verwijderen():
-    pass
-"""        
+    
+    keuze = None
+    dm=Datamanager()
+    vandaag = datetime.now()
+    datum = vandaag.strftime("%Y-%m-%d")
+    print ("Waarom wenst u het ticket te verwijderen?")
+    reden = input ()
+    x= PrettyTable()
+    id_list=[]
+    x.field_names=(["datum", "Prijs Volw", "Prijs Kind", "Aant Volw", "Aant Kind", "zaal", "filmtitel"])
+    #
+    #  TOON ALLE Tickets van VANDAAG
+    #
+    tickets=dm.tickets_vandaag(datum)
+    for ticket in tickets :
         
-        print ("\n<blue>Geef een uur formaat HH00 of HH30 : </blue>", end ="")
-        uur = input()
-        if not uur : 
-            break
-        print("\n<blue>Geef 2D of 3D : </blue>", end="")
-        drie_d = input ()
-        if not drie_d :
-            break
-        vertoning_actief= "AC"
-        films=dm.alle_films()
-        for film in films :
-            x.add_row([film.id, film.titel])
-            film_id_list.append(film.id)
-        print (x)    
-        print (f"\n<blue> voor welke film maakt u een vertoning in zaal {zaal} om {uur} (GEEF DE ID!)</blue>", end="")
-        film_id= input()
-        if not film_id :
-            break
-        film= dm.film_by_id(film_id)
-        try :
-            vertoning= Vertoning(zaal, uur, drie_d, vertoning_actief, film)
-        except ValueError :
-            print ("\n<RED>  GEEF de JUISTE WAARDES IN!!!  </RED>")
-            sleep (2)
+        x.add_row([ticket.id, ticket.prijs_volw, ticket.prijs_kind, ticket.aant_volw, ticket.aant_kind, ticket.vertoning.zaal, ticket.vertoning.film.titel])
+        # MAAK THEVENS EEN LIJST VAN ALLE ID dIE IN DE DB ZITTEN
+        id_list.append(ticket.id)
+    system("cls")
+    print_titel ("TICKET VERWIJDEREN")
+    print (x)
+    
+    #
+    # GEEF DE ID VAN het ticket dat VERWIJDERD MOET WORDEN
+    #
+    print ("<red>Welk ticket moet worden verwijderd ")
+    print_opdrachtregel ("Maak uw keuze (ID)  (eindig met enter) ")
+    keuze = input()
+    if keuze == "":
+        return
+
+    keuze = controle_int(keuze)
+
+    while not keuze :
+        print_opdrachtregel ("Maak uw keuze (ID)  (eindig met enter) ")
+        keuze = input()
+        keuze = controle_int(keuze)
+    # Enkel de Ticket verwijderen als die in de DB zit!!!
+
+    if int(keuze) in id_list :
+        ticket=dm.ticket_by_id(int(keuze))
+        print (f"Wenst u {ticket} toe te VERWIJDEREN. druk j/n ", end = "")
+        jn=input()
+        jn=controle_jn(jn)            
+        while not jn :
+    
+            print (f"Wenst u {ticket} toe te VERWIJDEREN. druk j/n ", end = "")
+            jn=input()
+            jn=controle_jn(jn)
+            if jn =="N" :
+                break
             continue
-        print (f"\n  voor {film.titel.upper()} wil u een vertoning in zaal {vertoning.zaal} om {vertoning.uur}??")
-        print ("\n TOEVOEGEN??? (j/n) ", end="")
-        jn = input ()
-        jn=controle_jn(jn)
-        if jn == "J" :
-            print (f"\n<green> {vertoning} TOEVOEGEN !</green>")
-            dm.vertoning_toevoegen(vertoning)
-            sleep(1)
-            
+
+        if jn == "J":
+            print ("\n <red>WORDT VERWIJDERD!!</red>")
+            #dm.ticket_verwijderen_by_id(int(keuze))
+            ticket = dm.ticket_by_id(int(keuze))
+            sleep (1.5)
+# verwijderde Tickets wegschrijven in bestand om fraude van de kassier tegen te gaan
+# de manager kan dat steeds nakijken waarom welke tickets verwijderd werden....
+            with open("DATA/verwijderde_tickets.csv","a",newline="")as bestand :
+                schrijver=csv.writer(bestand)
+                ticket_lijst =[
+                    ticket.id, 
+                    ticket.datum, 
+                    ticket.aant_volw, 
+                    ticket.aant_kind,
+                    ticket.vertoning.zaal,
+                    ticket.vertoning.film.titel,
+                    reden
+
+                ]
+                schrijver.writerow(ticket_lijst)
+            dm.ticket_verwijderen_by_id(int(keuze))    
         else :
-            print (f"\n<red> {vertoning} werd <b>NIET</b> TOEGVOEGD</red>")
+            print (f"\n {ticket} werd <b><red>NIET</red></b> VERWIJDERD", end ="")
             sleep (2)
-            continue
-        print("\n nog vertoningen invoeren j/n? ", end="")
-        jn= input ()
-        jn = controle_jn(jn)
-        if jn == "N":
-            break
-
-
-        """
+        
+        
+    else :
+        print ("<red> ticket niet in lijst !!! </red>")
+        sleep (1.5)
+    return
+        
+        

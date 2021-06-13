@@ -235,6 +235,14 @@ class Datamanager :
             tickets = [Ticket.from_dict(rij) for rij in rijen]
             return tickets
 
+    def tickets_vandaag(self, datum):
+        with dbconn() as cur :
+            sql = "SELECT tickets.*, vertoningen.*, films.* FROM tickets INNER JOIN vertoningen, films ON tickets.vertoningen_id = vertoningen.id AND vertoningen.films_id = films.id WHERE tickets.datum = ? "
+            cur.execute (sql,[datum])
+            rijen = cur.fetchall()
+            tickets = [Ticket.from_dict(rij) for rij in rijen]
+            return tickets
+
     def tickets_by_film_id(self, id):
         with dbconn() as cur :
             sql = "SELECT tickets.*, vertoningen.*, films.* FROM tickets INNER JOIN vertoningen, films ON tickets.vertoningen_id = vertoningen.id AND vertoningen.films_id = films.id WHERE films.id = ? "
@@ -243,8 +251,29 @@ class Datamanager :
             tickets = [Ticket.from_dict(rij) for rij in rijen]
             return tickets
 
+    def ticket_by_id(self,id):
+        with dbconn() as cur :
+            sql = "SELECT tickets.*, vertoningen.*, films.* FROM tickets INNER JOIN vertoningen, films ON tickets.vertoningen_id = vertoningen.id AND vertoningen.films_id = films.id WHERE tickets.id = ?"
+            cur.execute (sql, [id])
+            rij = cur.fetchone()
+            if rij :
+                ticket = Ticket.from_dict(rij)
+                return ticket
+            else :
+                return None
+
     def ticket_toevoegen (self, ticket):
         with dbconn() as cur :
             sql = "INSERT INTO tickets (datum, prijs_volw, prijs_kind, aant_volw, aant_kind, vertoningen_id) VALUES (?,?,?,?,?,?)"
             cur.execute(sql,[ticket.datum, ticket.prijs_volw, ticket.prijs_kind, ticket.aant_volw, ticket.aant_kind, ticket.vertoning.id])
+
+    def ticket_verwijderen_by_id (self,id):
+        with dbconn() as cur :
+            if id :
+                sql = "DELETE FROM tickets WHERE id = ?"
+                cur.execute(sql,[id])
+            else :
+                raise ValueError 
+
+
     
