@@ -171,6 +171,8 @@ def ft_ticket_verkopen():
                     system('cls')
                     print (f"<red> {ticket.vertoning.film.titel} wordt toegevoegd</red>")
                     #ticket = Ticket(datum,prijs_volw, prijs_kind, aant_volw,aant_kind, vertoning)
+                    #print(f"ticketteke toevoegen man {ticket}")
+                    #input()
                     dm.ticket_toevoegen(ticket)
                     print_opdrachtregel("\n Even Wachten")
                     sleep (1)
@@ -202,16 +204,22 @@ def ft_ticket_verkopen():
         
 
 def ft_ticket_verwijderen():
-    
+    system('cls')
     keuze = None
     dm=Datamanager()
     vandaag = datetime.now()
     datum = vandaag.strftime("%Y-%m-%d")
-    print ("Waarom wenst u het ticket te verwijderen?")
+    print_titel ("TICKET VERWIJDEREN")
+    print (f"\nINFO : Enkel de tickets van vandaag <b>{datum}</b> kunnen worden verwijderd\n")
+    print ("De verwijderde tickets worden bewaard in bestand!!!\n")
+
+    print_opdrachtregel ("Waarom wenst u het ticket te verwijderen? (geef een korte beschrijving (nihil : eindig met enter))")
     reden = input ()
+    if reden =="":
+        return
     x= PrettyTable()
     id_list=[]
-    x.field_names=(["datum", "Prijs Volw", "Prijs Kind", "Aant Volw", "Aant Kind", "zaal", "filmtitel"])
+    x.field_names=(["ID", "Prijs Volw", "Prijs Kind", "Aant Volw", "Aant Kind", "zaal", "filmtitel"])
     #
     #  TOON ALLE Tickets van VANDAAG
     #
@@ -258,11 +266,11 @@ def ft_ticket_verwijderen():
 
         if jn == "J":
             print ("\n <red>WORDT VERWIJDERD!!</red>")
-            #dm.ticket_verwijderen_by_id(int(keuze))
+            # Ticket ophalen wat verwijderd dient te worden!!
             ticket = dm.ticket_by_id(int(keuze))
             sleep (1.5)
-# verwijderde Tickets wegschrijven in bestand om fraude van de kassier tegen te gaan
-# de manager kan dat steeds nakijken waarom welke tickets verwijderd werden....
+            # verwijderde Tickets wegschrijven in bestand om fraude van de kassier tegen te gaan
+            # de manager kan dat steeds nakijken waarom welke tickets verwijderd werden....
             with open("DATA/verwijderde_tickets.csv","a",newline="")as bestand :
                 schrijver=csv.writer(bestand)
                 ticket_lijst =[

@@ -246,6 +246,7 @@ def ft_vertoning_actief_tonen():
         x.add_row([vertoning.id, vertoning.zaal, vertoning.uur, vertoning.film.titel, "ACTIEF" ])
     system("cls")
     print_titel("ACTIEVE VERTONINGEN TONEN")
+    #x.sortby="zaal"
     print (x)
     input ("\n druk toets")
    
