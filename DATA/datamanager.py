@@ -97,7 +97,7 @@ class Datamanager :
 
     def alle_vertoningen(self):
         with dbconn() as cur :
-            sql = "SELECT vertoningen.*, films.* FROM vertoningen INNER JOIN films ON vertoningen.films_id = films.id"
+            sql = "SELECT vertoningen.*, films.* FROM vertoningen INNER JOIN films ON vertoningen.films_id = films.id ORDER BY vertoningen.zaal, vertoningen.uur"
             cur.execute (sql)
             rijen = cur.fetchall()
             vertoningen = [Vertoning.from_dict(rij) for rij in rijen]
