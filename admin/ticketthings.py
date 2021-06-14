@@ -10,12 +10,14 @@ from datetime import date, datetime
 import locale
 locale.setlocale(locale.LC_ALL,"")
 import csv
+from admin.ticketreport import ft_ticket_rapport
+
 
 
 
 def ft_ticket_bewerken():
     while True:
-        TO_DO_list= ["Ticket verkopen",  "Ticket verwijderen", "Tickets tonen"]
+        TO_DO_list= ["Ticket verkopen",  "Ticket verwijderen", "Tickets rapporten"]
         TO_DO_list_header = ["keuze", "WAT WIL JE DOEN"]
         afsluiten="TERUG NAAR VORIG MENU"
         system ('cls')    
@@ -31,6 +33,8 @@ def ft_ticket_bewerken():
             ft_ticket_verkopen()
         if keuze == "2":
             ft_ticket_verwijderen()
+        if keuze == "3":
+            ft_ticket_rapport()
 
 
 def ft_ticket_verkopen():

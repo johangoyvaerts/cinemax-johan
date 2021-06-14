@@ -1,3 +1,4 @@
+from datetime import datetime
 from prettytable import PrettyTable
 from ansimarkup import ansiprint as print
 from os import system
@@ -80,4 +81,18 @@ def bepaal_prijs (vertoning):
         prijs_kind += 1.5
 
     return prijs_volw, prijs_kind
+
+def geef_prijs_per_soort(tot_prijs_soort, prijs_soort, aant_soort):
+    tot_prijs_soort+=prijs_soort*aant_soort
+    return tot_prijs_soort
+
+def controle_datum (datumstr):
+    try :
+        datum= datetime.strptime(datumstr,"%Y-%m-%d")
+        return datum.strftime("%Y-%m-%d")
+    except ValueError :
+        print ("<RED> DATUM FORMAAT <b>YYYY-MM-DD<b> !!! </RED>")
+        sleep (1.5)
+        return None
+
     

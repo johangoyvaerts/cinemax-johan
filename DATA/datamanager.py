@@ -235,6 +235,14 @@ class Datamanager :
             tickets = [Ticket.from_dict(rij) for rij in rijen]
             return tickets
 
+    def tickets_film_tss_data(self, datumlaag, datumhoog, film_id):
+        with dbconn() as cur :
+            sql = "SELECT tickets.*, vertoningen.*, films.* FROM tickets INNER JOIN vertoningen, films ON tickets.vertoningen_id = vertoningen.id AND vertoningen.films_id = films.id WHERE tickets.datum > ? AND tickets.datum <= ? AND films.id = ?"
+            cur.execute (sql,[datumlaag,datumhoog,film_id])
+            rijen = cur.fetchall()
+            tickets = [Ticket.from_dict(rij) for rij in rijen]
+            return tickets
+
     def tickets_vandaag(self, datum):
         with dbconn() as cur :
             sql = "SELECT tickets.*, vertoningen.*, films.* FROM tickets INNER JOIN vertoningen, films ON tickets.vertoningen_id = vertoningen.id AND vertoningen.films_id = films.id WHERE tickets.datum = ? "
