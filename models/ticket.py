@@ -72,7 +72,7 @@ class Ticket :
     def __str__(self):
         return f" TICKET    datum = {self.datum} \n VOLWASENEN {int(self.aant_volw):>3d} à {float(self.prijs_volw):>5.2f}€ = {float(self.prijs_volw)*int(self.aant_volw):>5.2f}€ \n KINDEREN   {int(self.aant_kind):>3d} à {float(self.prijs_kind):>5.2f}€ = {float(self.prijs_kind)*int(self.aant_kind):>5.2f}€\n TOTAAL                    {float(self.prijs_ticket):>5.2f}€\n {self.vertoning.film}\n zaal {self.vertoning.zaal} om {self.vertoning.uur}h"
 
-
+    
 
     @classmethod
     def from_dict(cls, dict):
@@ -81,7 +81,7 @@ class Ticket :
         prijs_kind = dict["prijs_kind"]
         aant_volw = dict["aant_volw"]
         aant_kind = dict["aant_kind"]
-        vertoning = Vertoning(dict["zaal"], dict["uur"], dict["drie_d"], dict["vertoning_actief"], Film(dict["titel"], dict["duur"], dict["knt"], dict["MDB_id"] ))
+        vertoning = Vertoning(dict["zaal"], dict["uur"], dict["drie_d"], dict["vertoning_actief"], Film(dict["titel"], dict["duur"], dict["knt"], dict["MDB_id"], dict["films_id"] ))
         id=dict["id"]
         return cls(datum, prijs_volw, prijs_kind, aant_volw, aant_kind, vertoning, id)
 

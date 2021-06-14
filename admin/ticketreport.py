@@ -68,7 +68,12 @@ def ft_ticket_rapport_film():
         print_opdrachtregel ("Maak uw keuze (ID) (eindig met enter) ")
         keuze = input()
         keuze = controle_int(keuze)
-
+    ticket=dm.tickets_by_film_id(int(keuze))
+    if not ticket :
+        print (" van deze film werden nog geen tickets verkocht")
+        print_opdrachtregel ("druk toets")
+        input ()
+        return
     tot_prijs_volw = 0
     tot_prijs_kind = 0
     tot_aant_volw=0
@@ -113,8 +118,6 @@ def ft_ticket_rapport_film():
     return
 
 
-
-
 def ft_ticket_rapport_tijdsinterval():
     
     dm=Datamanager()
@@ -122,24 +125,24 @@ def ft_ticket_rapport_tijdsinterval():
 
     
 
-    datum1 = input("<i>geef de eerste datum (formaat YYYY-MM-DD)</i> ")
+    datum1 = input("geef de eerste datum (formaat YYYY-MM-DD) ")
     if datum1=="":
         return
     datum1= controle_datum (datum1)
     while not datum1 :
-        datum1 = input("<i>geef de eerste datum (formaat YYYY-MM-DD)</i> ")
+        datum1 = input("geef de eerste datum (formaat YYYY-MM-DD) ")
 
         datum1= controle_datum (datum1)  
               
     
 
 
-    datum2 = input("<i>geef de tweede datum (formaat YYYY-MM-DD)</i> ")
+    datum2 = input("geef de tweede datum (formaat YYYY-MM-DD) ")
     if datum2=="":
         return
     datum2= controle_datum (datum2)
     while not datum2 :
-        datum2 = input("<i>geef de tweede datum (formaat YYYY-MM-DD)</i> ")
+        datum2 = input("geef de tweede datum (formaat YYYY-MM-DD) ")
 
         datum2= controle_datum (datum2)
 
@@ -198,24 +201,24 @@ def ft_ticket_rapport_tijdsinterval_film():
 
     
 
-    datum1 = input("<i>geef de eerste datum (formaat YYYY-MM-DD)</i> ")
+    datum1 = input("geef de eerste datum (formaat YYYY-MM-DD) ")
     if datum1=="":
         return
     datum1= controle_datum (datum1)
     while not datum1 :
-        datum1 = input("<i>geef de eerste datum (formaat YYYY-MM-DD)</i> ")
+        datum1 = input("geef de eerste datum (formaat YYYY-MM-DD) ")
 
         datum1= controle_datum (datum1)  
               
     
 
 
-    datum2 = input("<i>geef de tweede datum (formaat YYYY-MM-DD)</i> ")
+    datum2 = input("geef de tweede datum (formaat YYYY-MM-DD) ")
     if datum2=="":
         return
     datum2= controle_datum (datum2)
     while not datum2 :
-        datum2 = input("<i>geef de tweede datum (formaat YYYY-MM-DD)</i> ")
+        datum2 = input("geef de tweede datum (formaat YYYY-MM-DD) ")
 
         datum2= controle_datum (datum2)
 
@@ -233,10 +236,10 @@ def ft_ticket_rapport_tijdsinterval_film():
     #
     
     for ticket in tickets :
-
-        x.add_row([ticket.vertoning.film.id, ticket.vertoning.film.titel])
-        # MAAK THEVENS EEN LIJST VAN ALLE ID DIE IN DE DB ZITTEN
-        id_list.append(ticket.vertoning.film.id)
+        if ticket.vertoning.film.id not in id_list :
+            x.add_row([ticket.vertoning.film.id, ticket.vertoning.film.titel])
+            # MAAK THEVENS EEN LIJST VAN ALLE ID DIE IN DE DB ZITTEN
+            id_list.append(ticket.vertoning.film.id)
     system("cls")
     print_titel("FILM RAPPORT TIJDSINTERVAL")
     print (x)
@@ -307,9 +310,6 @@ def ft_ticket_rapport_tijdsinterval_film():
     print_opdrachtregel("Druk een toets")
     input()
     return 
-
-
-
 
 
 def ft_ticket_rapport_totaal():
