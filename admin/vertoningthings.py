@@ -40,11 +40,7 @@ def ft_vertoning_bewerken():
 
 
 def ft_vertoning_verwijderen():
-# indien er tickets van vertoningen bestaan, mag j die niet verwijderen!!! NOG TOEVOEGEN
-# indien er tickets van vertoningen bestaan, mag j die niet verwijderen!!! NOG TOEVOEGEN
-# indien er tickets van vertoningen bestaan, mag j die niet verwijderen!!! NOG TOEVOEGEN
-# indien er tickets van vertoningen bestaan, mag j die niet verwijderen!!! NOG TOEVOEGEN
-#    
+   
     keuze = None
     dm=Datamanager()
 
@@ -83,6 +79,17 @@ def ft_vertoning_verwijderen():
             print_opdrachtregel ("Maak uw keuze (ID)  (eindig met enter) ")
             keuze = input()
             keuze = controle_int(keuze)
+        #indien er tickets verkocht werden, mag de vertoning niet verwijderd worden,
+        # anders is er geen link meer tussen het verkochte ticket en de film
+        #dit kan bij de rapporten onjuistheden geven
+        ticket = dm.tickets_by_vertoning_id(int(keuze))
+        
+        if ticket :
+            print (f"\n vertoning kan <b><red>niet</red></b> worden verwijderd, van {vertoning} is een ticket verkocht")
+            print()
+            print_opdrachtregel ("Druk op een toets")
+            input()
+            continue
 
         # Enkel de film verwijderen als die in de DB zit!!!
         if int(keuze) in id_list :
@@ -118,6 +125,7 @@ def ft_vertoning_verwijderen():
 def ft_vertoning_toevoegen():
     
     while True :
+        
         zaal = 0
         drie_d =""
         film_id_list =[]
@@ -126,8 +134,9 @@ def ft_vertoning_toevoegen():
         dm = Datamanager()
         system ("cls")
         print_titel ("VERTONING TOEVOEGEN")
-        print("<green>\n LET OP\n\n geef de juiste waardes in!!! let op hetgeen gevraagd wordt!!\n\n een ingegeven vertoning is <b>steeds AKTIEF!!</b></green>")
+        print("<green>\n LET OP\n geef de juiste waardes in!!! let op hetgeen gevraagd wordt!!\n\ een ingegeven vertoning is <b>steeds AKTIEF!!</b></green>")
         print(" <green>\n door ENTER te drukken verlaat u het menu</green>")
+        ft_vertoning_actief_tonen()
         print("\n<blue>Geef een zaal 1, 2, 3, 4, 5, 6 : </blue>", end="")
         zaal = input()
         if not zaal :
@@ -141,12 +150,14 @@ def ft_vertoning_toevoegen():
         if not drie_d :
             break
         vertoning_actief= "AC"
+        x.field_names=["ID", "titel"]
         films=dm.alle_films()
         for film in films :
             x.add_row([film.id, film.titel])
             film_id_list.append(film.id)
+        x.sortby=("titel")
         print (x)    
-        print (f"\n<blue> voor welke film maakt u een vertoning in zaal {zaal} om {uur} (GEEF DE ID!)</blue>", end="")
+        print (f"\n<blue> voor welke film maakt u een vertoning in zaal {zaal} om {uur} (GEEF DE ID!)</blue> ", end="")
         film_id= input()
         if not film_id :
             break

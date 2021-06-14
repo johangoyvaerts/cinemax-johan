@@ -91,7 +91,7 @@ def controle_datum (datumstr):
         datum= datetime.strptime(datumstr,"%Y-%m-%d")
         return datum.strftime("%Y-%m-%d")
     except ValueError :
-        print ("<RED> DATUM FORMAAT <b>YYYY-MM-DD<b> !!! </RED>")
+        print ("<RED> DATUM FORMAAT YYYY-MM-DD !!! </RED>")
         sleep (1.5)
         return None
 
