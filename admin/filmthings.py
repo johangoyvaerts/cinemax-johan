@@ -7,7 +7,8 @@ from ansimarkup import ansiprint as print
 from time import sleep
 from prettytable import PrettyTable
 from utils.menu_en_contole import controle_int, controle_jn, menu_opbouw, menu_keuze_controle,get_api_key, print_opdrachtregel, print_titel
-
+from PIL import Image
+import os
 
 def ft_film_toevoegen():
     api_key= get_api_key()
@@ -51,8 +52,23 @@ def ft_film_toevoegen():
                     break
                 
                 if jn == "J":
-                    print ("\n    WORDT TOEGEVOEGD!!   ", end="")
+                    print ("\n    WORDT TOEGEVOEGD!!   ")
+
                     dm.film_toevoegen(film)
+                    sleep(1)
+                    print ("POSTER GENEREREN")
+
+                    # haal de poste op (JPG)
+                    foto=requests.get("https://image.tmdb.org/t/p/w200"+movie_dict["poster_path"])
+                    with open(f"DATA/posters/{str(movie_dict['id'])}.jpg",'wb') as bestand :
+                        bestand.write(foto.content)
+                    # Zet de opgeslagen poster.JPG om naar poster.png
+                    im1=Image.open(f"DATA/posters/{str(movie_dict['id'])}.jpg")
+                    im1.save(f"DATA//posters/{str(movie_dict['id'])}.png")
+                    # Verwijder het JG bestand
+                    if os.path.exists(f"DATA/posters/{str(movie_dict['id'])}.jpg") :
+                        os.remove(f"DATA/posters/{str(movie_dict['id'])}.jpg")  
+
                     sleep (1.5)
                 else :
                     print (f"\n {film} werd <b><red>NIET</red></b> toegevoegd\n \n ", end ="")
