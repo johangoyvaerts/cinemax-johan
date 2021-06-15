@@ -79,7 +79,8 @@ def bepaal_prijs (vertoning):
     if vertoning.drie_d == "3D":
         prijs_volw += 1.5
         prijs_kind += 1.5
-
+    if vertoning.film.knt == "KNT":
+        prijs_kind =0
     return prijs_volw, prijs_kind
 
 def geef_prijs_per_soort(tot_prijs_soort, prijs_soort, aant_soort):

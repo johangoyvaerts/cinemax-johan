@@ -14,7 +14,7 @@ class Datamanager :
 
     def alle_films(self):
         with dbconn() as cur :
-            sql = "SELECT * FROM films"
+            sql = "SELECT * FROM films ORDER BY films.titel"
             cur.execute (sql)
             rijen = cur.fetchall()
             films = [Film.from_dict(rij) for rij in rijen]
@@ -147,6 +147,17 @@ class Datamanager :
         with dbconn() as cur :
             sql = "SELECT vertoningen.*, films.* FROM vertoningen INNER JOIN films ON vertoningen.films_id = films.id  WHERE vertoningen.id = ?"
             cur.execute (sql, [id])
+            rij = cur.fetchone()
+            if rij :
+                vertoning = Vertoning.from_dict(rij)
+                return vertoning
+            else :
+                return None
+
+    def vertoning_by_film_id_zaal_uur(self,film_id,zaal,uur):
+        with dbconn() as cur :
+            sql = "SELECT vertoningen.*, films.* FROM vertoningen INNER JOIN films ON vertoningen.films_id = films.id  WHERE vertoningen.films_id = ? AND vertoningen.zaal = ? AND vertoningen.uur = ? "
+            cur.execute (sql, [film_id, zaal, uur])
             rij = cur.fetchone()
             if rij :
                 vertoning = Vertoning.from_dict(rij)
