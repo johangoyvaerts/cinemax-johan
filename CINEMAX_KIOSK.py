@@ -1,14 +1,12 @@
-from tkinter.constants import DISABLED
+#from tkinter.constants import DISABLED
 import PySimpleGUI as gui
-from PySimpleGUI.PySimpleGUI import THEME_XPNATIVE, Text
+#from PySimpleGUI.PySimpleGUI import THEME_XPNATIVE, Text
 import requests
 from os import system
 from prettytable import PrettyTable
 from ansimarkup import ansiprint as print
-from utils.menu_en_contole import bepaal_prijs, menu_keuze_controle, menu_opbouw, print_opdrachtregel, print_titel
-from admin.filmthings import ft_film_bewerken
-from admin.vertoningthings import ft_vertoning_bewerken
-from admin.ticketthings import ft_ticket_bewerken
+from utils.menu_en_contole import bepaal_prijs
+
 from models.ticket import Ticket
 from DATA.datamanager import Datamanager
 from datetime import datetime
@@ -121,7 +119,7 @@ while True:
             film_id=film.id
             film_knt=film.knt
 
-            print (film.knt,type(film.knt))
+            #print (film.knt,type(film.knt))
 
         # haal van de geselecteerde film de actieve zaal en uur op
         zalen = dm.vertoning_actief_by_film_id(film_id)
@@ -180,17 +178,23 @@ while True:
         
         totaal= tot_prijs_volw+tot_prijs_kind
         window["-TOTAAL-"].update(value=str(totaal)+"€")
+        
 
     if event == "-KOPEN-":
         aant_volw=values["-AANT_VOLW-"]
         aant_kind=values["-AANT_KIND-"]
         ticket=Ticket(datum,prijs_volw,prijs_kind,str(aant_volw),str(aant_kind),vertoning)
         #print (ticket)
-        gui.Popup(ticket, title = 'DANK U VOOR UW AANKOOP')
-
-        dm.ticket_toevoegen(ticket)
+        verkoop=gui.popup_ok_cancel(ticket, title = 'KOPEN ?')
+        print (verkoop)
+        if verkoop == "OK":
+            gui.popup_auto_close(ticket, title = "BEDANKT", auto_close_duration=3, button_type=None)
+            dm.ticket_toevoegen(ticket)
+        else : 
+            gui.popup_auto_close (ticket,title="NIET VERKOCHT", auto_close_duration=3, text_color="red")
         andere_vertoning()
         window["-ZALEN-"].update(values=[])
+
 
 window.close()
 
