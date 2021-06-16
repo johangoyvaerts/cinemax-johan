@@ -242,7 +242,7 @@ def ft_film_KNT_KT_wisselen():
         print(" <green>\n  door ENTER te drukken verlaat u het menu</green>") 
         films =dm.alle_films()
         for film in films :
-            x.add_row([film.id, film.titel, '<green>KT</green>' if film.knt =="KT" else "<red>KNT</red>" ])
+            x.add_row([film.id, film.titel, 'KT' if film.knt =="KT" else "KNT" ])
             film_list.append(film.id)
 
         print (x)
@@ -293,14 +293,60 @@ def ft_film_KNT_KT_wisselen():
 #        if jn == "N":
 #            break
 
+def ft_alle_films_tonen():
+    
+    dm=Datamanager()
 
-#    pass
+    
+    x= PrettyTable()
+   
+    x.field_names=(["ID", "TITEL", "KT/KNT",  "duur"])
+    #
+    #  TOON ALLE films
+    #
+    films=dm.alle_films()
+    for film in films :
+        x.add_row([film.id, film.titel, film.knt, film.duurtijd])
+        
+    system("cls")
+    print_titel("FILMS TONEN")
+    x.sortby="TITEL"
+    print (x)
+    print_opdrachtregel ("druk enter")
+    input()
+    return
+
+def ft_film_zoeken_met_zoekterm():
+    keuze = None
+    dm=Datamanager()
+    
+    system('cls')    
+    print_titel("FILM ZOEKEN MET ZOEKTERM")
+    
+    print_opdrachtregel ("Geef een zoekterm (eindig met enter) ")
+    keuze = input()
+    print (keuze)
+    if keuze == "":
+        return
+   
+    x= PrettyTable()
+
+    x.field_names=(["ID", "TITEL", "KT/KNT",  "duur"])
+    films=dm.film_by_zoekterm(keuze)
+    for film in films :
+        x.add_row([film.id, film.titel, film.knt, film.duurtijd])
+    x.sortby="TITEL"
+    print (x)
+    print_opdrachtregel ("druk enter")
+
+    input()
+    return            
 
 
 def ft_film_bewerken():
     while True:
 
-        TO_DO_list= ["Film toevoegen",  "film verwijderen by id", "film verwijderen by TMDB id", "film KT/KNT wisselen"]
+        TO_DO_list= ["Film toevoegen",  "film verwijderen by id", "film verwijderen by TMDB id", "film KT/KNT wisselen", "Alle films tonen", "Film zoeken met zoekterm"]
         TO_DO_list_header = ["keuze", "WAT WIL JE DOEN"]
         afsluiten ="TERUG NAAR HOOFDMENU"
         system ('cls')
@@ -320,4 +366,7 @@ def ft_film_bewerken():
             ft_film_verwijderen_by_MDB_id()
         if keuze =="4":
             ft_film_KNT_KT_wisselen()
-
+        if keuze =="5":
+            ft_alle_films_tonen()
+        if keuze =="6":
+            ft_film_zoeken_met_zoekterm()
