@@ -48,7 +48,7 @@ def ft_vertoning_verwijderen():
         x= PrettyTable()
         id_list=[]
         x.field_names=(["ID", "zaal", "uur", "2D/3D", "AC/NA", "filmtitel"])
-
+       
         #
         #  TOON ALLE films
         #
@@ -57,7 +57,7 @@ def ft_vertoning_verwijderen():
         #input()
         for vertoning in vertoningen :
             #titel = dm.film_by_id(vertoning.film.id)
-            x.add_row([vertoning.id, vertoning.zaal, vertoning.uur, vertoning.drie_d, vertoning.vertoning_actief, vertoning.film.titel])
+            x.add_row([vertoning.id, vertoning.zaal, vertoning.tijd, vertoning.drie_d, vertoning.vertoning_actief, vertoning.film.titel])
             # MAAK THEVENS EEN LIJST VAN ALLE ID SIE IN DE DB ZITTEN
             id_list.append(vertoning.id)
         system("cls")
@@ -168,7 +168,7 @@ def ft_vertoning_toevoegen():
             print ("\n<RED>  GEEF de JUISTE WAARDES IN!!!  </RED>")
             sleep (2)
             continue
-        print (f"\n  voor {film.titel.upper()} wil u een vertoning in zaal {vertoning.zaal} om {vertoning.uur}??")
+        print (f"\n  voor {film.titel.upper()} wil u een vertoning in zaal {vertoning.zaal} om {vertoning.tijd}??")
         print ("\n TOEVOEGEN??? (j/n) ", end="")
         jn = input ()
         jn=controle_jn(jn)
@@ -192,7 +192,15 @@ def ft_vertoning_toevoegen():
  
 
 def ft_vertoning_actief_non_maken():
+    #Color
+    R = "\033[0;31;40m" #RED
+    G = "\033[0;32;40m" # GREEN
+    Y = "\033[0;33;40m" # Yellow
+    B = "\033[0;34;40m" # Blue
+    N = "\033[0m" # Reset
+
     while True :
+
         jn=""
         x = PrettyTable()
         x.field_names=(["ID", "zaal", "uur",  "filmtitel", "Act/NON-Act"])
@@ -205,11 +213,11 @@ def ft_vertoning_actief_non_maken():
         print(" <green>\n  door ENTER te drukken verlaat u het menu</green>") 
         vertoningen=dm.alle_vertoningen()
         for vertoning in vertoningen :
-            x.add_row([vertoning.id, vertoning.zaal, vertoning.uur, vertoning.film.titel, "<red>ACTIEF</red>" if vertoning.vertoning_actief =="AC" else "<red>NON-ACTIEF</red>" ])
+            x.add_row([vertoning.id, vertoning.zaal, vertoning.tijd, vertoning.film.titel, R+"ACTIEF"+N if vertoning.vertoning_actief =="AC" else G+"NON-ACTIEF"+N ])
             vertoning_list.append(vertoning.id)
 
         print (x)
-        print (vertoning_list)
+        #print (vertoning_list)
         print ("\n<blue>  Welke vertoning (ID) moet ACTIEF/NON-ACTIEF</blue> ", end="")
         vertoning_ID = input()
         if not vertoning_ID :
@@ -247,6 +255,12 @@ def ft_vertoning_actief_non_maken():
 
 
 def ft_vertoning_actief_tonen():
+    #Color
+    R = "\033[0;31;40m" #RED
+    G = "\033[0;32;40m" # GREEN
+    Y = "\033[0;33;40m" # Yellow
+    B = "\033[0;34;40m" # Blue
+    N = "\033[0m" # Reset
 
     x = PrettyTable()
     x.field_names=(["ID", "zaal", "uur",  "filmtitel", "Act/NON-Act"])
@@ -254,7 +268,7 @@ def ft_vertoning_actief_tonen():
     vertoningen = dm.alle_actieve_vertoningen()
     
     for vertoning in vertoningen :
-        x.add_row([vertoning.id, vertoning.zaal, vertoning.uur, vertoning.film.titel, "ACTIEF" ])
+        x.add_row([vertoning.id, vertoning.zaal, vertoning.tijd, vertoning.film.titel, R+"ACTIEF"+N ])
     system("cls")
     print_titel("ACTIEVE VERTONINGEN TONEN")
     #x.sortby="zaal"
@@ -263,6 +277,12 @@ def ft_vertoning_actief_tonen():
    
 
 def ft_vertoning_drie_d_wisselen():
+        #Color
+    R = "\033[0;31;40m" #RED
+    G = "\033[0;32;40m" # GREEN
+    Y = "\033[0;33;40m" # Yellow
+    B = "\033[0;34;40m" # Blue
+    N = "\033[0m" # Reset
     while True :
         jn=""
         x = PrettyTable()
@@ -276,11 +296,11 @@ def ft_vertoning_drie_d_wisselen():
         print(" <green>\n  door ENTER te drukken verlaat u het menu</green>") 
         vertoningen=dm.alle_actieve_vertoningen()
         for vertoning in vertoningen :
-            x.add_row([vertoning.id, vertoning.zaal, vertoning.uur, vertoning.vertoning_actief, vertoning.film.titel, vertoning.drie_d ])
+            x.add_row([vertoning.id, vertoning.zaal, vertoning.tijd, vertoning.vertoning_actief, vertoning.film.titel, B+"2D"+N if vertoning.drie_d=="2D" else G+"3D"+N ])
             vertoning_list.append(vertoning.id)
 
         print (x)
-        print (vertoning_list)
+        #print (vertoning_list)
         print ("\n<blue>  Welke vertoning (ID) moet 2D / 3D wisselen? </blue> ", end="")
         vertoning_ID = input()
         if not vertoning_ID :
@@ -318,14 +338,19 @@ def ft_vertoning_drie_d_wisselen():
 
 
 def ft_alle_vertoningen_tonen():
-
+        #Color
+    R = "\033[0;31;40m" #RED
+    G = "\033[0;32;40m" # GREEN
+    Y = "\033[0;33;40m" # Yellow
+    B = "\033[0;34;40m" # Blue
+    N = "\033[0m" # Reset
     x = PrettyTable()
     x.field_names=(["ID", "zaal", "uur",  "filmtitel", "Act/NON-Act", "2D/3D"])
     dm = Datamanager()
     vertoningen = dm.alle_vertoningen()
     
     for vertoning in vertoningen :
-        x.add_row([vertoning.id, vertoning.zaal, vertoning.uur, vertoning.film.titel, vertoning.vertoning_actief, vertoning.drie_d ])
+        x.add_row([vertoning.id, vertoning.zaal, vertoning.tijd, vertoning.film.titel, R+"ACTIEF"+N if vertoning.vertoning_actief == 'AC' else G+"NON-ACTIEF"+N, B+"2D"+N if vertoning.drie_d=='2D' else G+'3D'+N ])
     system("cls")
     print_titel("ALLE VERTONINGEN TONEN")
     print (x)

@@ -90,6 +90,11 @@ class Vertoning:
         else :
             return  f"'{self.film.titel}' in zaal {self.zaal} om {self.uur} speelt niet"
 
+    @property
+    def tijd (self):
+        uren= self.uur[0:2]
+        min=self.uur[2:4]
+        return f"{uren}:{min}"
 
     @classmethod
     def from_dict (cls,dict):

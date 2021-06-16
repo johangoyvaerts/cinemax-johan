@@ -38,6 +38,12 @@ def ft_ticket_bewerken():
 
 
 def ft_ticket_verkopen():
+        #Color
+    R = "\033[0;31;40m" #RED
+    G = "\033[0;32;40m" # GREEN
+    Y = "\033[0;33;40m" # Yellow
+    B = "\033[0;34;40m" # Blue
+    N = "\033[0m" # Reset
 
     
     while True :
@@ -71,7 +77,7 @@ def ft_ticket_verkopen():
             # toon de actieve films slechts 1 maal (sppelt misschien in meerdere zalen en tijdstippen...)
             if vertoning.film.id not in film_id_list :
                 film_id_list.append(vertoning.film.id)
-                x.add_row([vertoning.film.id,vertoning.film.titel,vertoning.film.duurtijd, "NO-KIDS" if vertoning.film.knt=="KNT" else "KIDS Allowed"])
+                x.add_row([vertoning.film.id,vertoning.film.titel,vertoning.film.duurtijd, G+"KIDS ALLOWED"+N if vertoning.film.knt=='KT'else R+"NO KIDS ADMITTED"+N])
             #print (dm.film_by_id(vertoning.film.id))
         x.sortby="film titel"
         print (x)

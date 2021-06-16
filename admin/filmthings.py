@@ -81,8 +81,6 @@ def ft_film_toevoegen():
                 input()
     return
 
-
-
 def ft_film_verwijderen_by_id():
     keuze = None
     dm=Datamanager()
@@ -160,8 +158,6 @@ def ft_film_verwijderen_by_id():
             sleep (1.5)
     return
 
-
-
 def ft_film_verwijderen_by_MDB_id():
     keuze = None
     dm=Datamanager()
@@ -224,9 +220,14 @@ def ft_film_verwijderen_by_MDB_id():
             sleep (1.5)
 
     return
-
     
 def ft_film_KNT_KT_wisselen():
+        #Color
+    R = "\033[0;31;40m" #RED
+    G = "\033[0;32;40m" # GREEN
+    Y = "\033[0;33;40m" # Yellow
+    B = "\033[0;34;40m" # Blue
+    N = "\033[0m" # Reset
     while True :
         jn=""
         x = PrettyTable()
@@ -242,12 +243,12 @@ def ft_film_KNT_KT_wisselen():
         print(" <green>\n  door ENTER te drukken verlaat u het menu</green>") 
         films =dm.alle_films()
         for film in films :
-            x.add_row([film.id, film.titel, 'KT' if film.knt =="KT" else "KNT" ])
+            x.add_row([film.id, film.titel, G+"KIDS ALLOWED"+N if film.knt=='KT'else R+"NO KIDS ADMITTED"+N ])
             film_list.append(film.id)
 
         print (x)
         #print (film_list)
-        print ("\n<blue>  Welke film (ID) moet KT/KNT wisselen ? </blue> ", end="")
+        print ("\n<blue>  Welke film (ID) moet KT/KNT wisselen ? </blue>  ", end="")
         print_opdrachtregel ("geef de ID aub?")
         film_ID = input()
         if not film_ID :
@@ -267,7 +268,7 @@ def ft_film_KNT_KT_wisselen():
             film=dm.film_by_id(int(film_ID))
             #print ("HOERA")
             #input()
-            print (f"<blue>   {film} </blue><red>{'KT' if film.knt=='KT' else 'KNT'}</red><blue> Wisselen in</blue> <red>{'KNT' if film.knt=='KT' else 'KT'}</red> ")
+            print (f"<blue>   {film} </blue><red>{'KT' if film.knt=='KT' else 'KNT'}</red><blue> Wisselen in</blue> <red>{'KNT' if film.knt=='KT' else 'KT'}</red> (j/n) ")
             
             jn=input ()
             #print (jn)
@@ -285,16 +286,14 @@ def ft_film_KNT_KT_wisselen():
                 else :
                     print (" <red> WISSELEN </red>")
                     dm.set_film_KT_by_id(int(film_ID))
-#            else :
-#                continue
-#        print ("<blue>\n   Nog wisselen Actief, Non-actief ?? (j/n) </blue>", end ="")
-#        jn = input()
-#        jn = controle_jn(jn)
-#        if jn == "N":
-#            break
 
 def ft_alle_films_tonen():
-    
+            #Color
+    R = "\033[0;31;40m" #RED
+    G = "\033[0;32;40m" # GREEN
+    Y = "\033[0;33;40m" # Yellow
+    B = "\033[0;34;40m" # Blue
+    N = "\033[0m" # Reset
     dm=Datamanager()
 
     
@@ -306,7 +305,7 @@ def ft_alle_films_tonen():
     #
     films=dm.alle_films()
     for film in films :
-        x.add_row([film.id, film.titel, film.knt, film.duurtijd])
+        x.add_row([film.id, film.titel, G+"KIDS ALLOWED"+N if film.knt=='KT'else R+"NO KIDS ADMITTED"+N, film.duurtijd])
         
     system("cls")
     print_titel("FILMS TONEN")
@@ -317,6 +316,12 @@ def ft_alle_films_tonen():
     return
 
 def ft_film_zoeken_met_zoekterm():
+            #Color
+    R = "\033[0;31;40m" #RED
+    G = "\033[0;32;40m" # GREEN
+    Y = "\033[0;33;40m" # Yellow
+    B = "\033[0;34;40m" # Blue
+    N = "\033[0m" # Reset
     keuze = None
     dm=Datamanager()
     
@@ -334,7 +339,7 @@ def ft_film_zoeken_met_zoekterm():
     x.field_names=(["ID", "TITEL", "KT/KNT",  "duur"])
     films=dm.film_by_zoekterm(keuze)
     for film in films :
-        x.add_row([film.id, film.titel, film.knt, film.duurtijd])
+        x.add_row([film.id, film.titel, G+"KIDS ALLOWED"+N if film.knt=='KT'else R+"NO KIDS ADMITTED"+N, film.duurtijd])
     x.sortby="TITEL"
     print (x)
     print_opdrachtregel ("druk enter")
