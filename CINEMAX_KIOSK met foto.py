@@ -130,7 +130,7 @@ while True:
         zalen = dm.vertoning_actief_by_film_id(film_id)
 
         for zaal in zalen :
-            zaal_list.append(f"zaal : {zaal.zaal}, uur : {zaal.uur} {'3D' if zaal.drie_d == '3D' else ''}")
+            zaal_list.append(f"zaal : {zaal.zaal}, uur : {zaal.tijd} {'3D' if zaal.drie_d == '3D' else ''}")
         window["-ZALEN-"].update(values=zaal_list)
         with open(f"DATA/discriptions/{film.MDB_id}.txt",'r') as bestand :
             beschrijving=bestand.read()
