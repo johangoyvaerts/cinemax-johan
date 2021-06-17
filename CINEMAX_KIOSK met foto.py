@@ -65,7 +65,8 @@ layout_titel = [gui.Text("CINEMAX", font="Helvetica 32")]
 
 layout_listbox = [
     gui.Column([
-        [gui.Image(filename="DATA/posters/cinemax.png", key="-FOTO-" , size= (200,300), pad=(50,0))]
+        [gui.Image(filename="DATA/posters/cinemax.png", key="-FOTO-" , size= (200,300), pad=(50,0))],
+        [gui.Text(text='\n\n         CINEMAX \nbest experiance in town', key="-BESCHRIJVING-", size= (40,10), enable_events=True, font="helvetia 10")]
     ]),
     gui.Column([
         [gui.Text("Kies een film")],
@@ -103,7 +104,7 @@ layout = [
     layout_listbox
 ]
 
-window = gui.Window("Bibliotheek", layout, size=(1080, 480), font="Helvetica 16", element_justification="center")
+window = gui.Window("Bibliotheek", layout, size=(1080, 600), font="Helvetica 16", element_justification="center")
 
 while True:
     zaal_list=[]
@@ -131,7 +132,10 @@ while True:
         for zaal in zalen :
             zaal_list.append(f"zaal : {zaal.zaal}, uur : {zaal.uur} {'3D' if zaal.drie_d == '3D' else ''}")
         window["-ZALEN-"].update(values=zaal_list)
+        with open(f"DATA/discriptions/{film.MDB_id}.txt",'r') as bestand :
+            beschrijving=bestand.read()
         window["-FOTO-"].update(filename= f"DATA/posters/{film.MDB_id}.png")
+        window["-BESCHRIJVING-"].update(value = beschrijving)
     if event=="-ZALEN-":
         andere_vertoning()
         totaal=0

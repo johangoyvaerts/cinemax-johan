@@ -56,7 +56,12 @@ def ft_film_toevoegen():
 
                     dm.film_toevoegen(film)
                     sleep(1)
+                    print ("BESCHRIJVING GENEREREN")
+                    with open(f"DATA/discriptions/{str(movie_dict['id'])}.txt",'w') as bestand :
+                        bestand.write(movie_dict["overview"])
+                    sleep (1)
                     print ("POSTER GENEREREN")
+
 
                     # haal de poste op (JPG)
                     foto=requests.get("https://image.tmdb.org/t/p/w200"+movie_dict["poster_path"])
@@ -146,6 +151,11 @@ def ft_film_verwijderen_by_id():
     
             if jn == "J":
                 print ("\n <red>WORDT VERWIJDERD!!</red>")
+                if os.path.exists(f"DATA/posters/{film.MDB_id}.png") :
+                    os.remove(f"DATA/posters/{film.MDB_id}.png") 
+                if os.path.exists(f"DATA/discriptions/{film.MDB_id}.txt") :
+                    os.remove(f"DATA/discriptions/{film.MDB_id}.txt")  
+
                 dm.film_verwijderen_by_id(int(keuze))
                 sleep (1.5)
             else :
