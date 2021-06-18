@@ -126,11 +126,11 @@ def ft_film_verwijderen_by_id():
         # indien ja : niet verwijderen omdat er misschien tickets van verkocht zijn!!! 
         # anders is de link tussen het Ticket en de film verloren en kan men niet meer de omzet
         # per film opvragen!! 
-
+        film=dm.film_by_id(int(keuze))
         vertoning = dm.vertoning_by_film_id(int(keuze))
         
         if vertoning :
-            print (f"\n Film kan <b><red>niet</red></b> worden verwijderd, {vertoning.film.titel.upper()} is in een vertoning opgenomen")
+            print (f"\n Film kan <b><red>niet</red></b> worden verwijderd, {film.titel.upper()} is in een vertoning opgenomen")
             print()
             print_opdrachtregel ("Druk op een toets")
             input()
@@ -152,10 +152,15 @@ def ft_film_verwijderen_by_id():
             if jn == "J":
                 print ("\n <red>WORDT VERWIJDERD!!</red>")
                 if os.path.exists(f"DATA/posters/{film.MDB_id}.png") :
+                    print ("Poster verwijderen!")
+                    sleep(1)
                     os.remove(f"DATA/posters/{film.MDB_id}.png") 
                 if os.path.exists(f"DATA/discriptions/{film.MDB_id}.txt") :
+                    print("Discription verwijderen")
+                    sleep(1)
                     os.remove(f"DATA/discriptions/{film.MDB_id}.txt")  
-
+                print ("Film uit DB verwijderen")
+                sleep(1)
                 dm.film_verwijderen_by_id(int(keuze))
                 sleep (1.5)
             else :
@@ -199,7 +204,7 @@ def ft_film_verwijderen_by_MDB_id():
 
             vertoning = dm.vertoning_by_film_id(film.id)
         if vertoning :
-            print (f"<red>film kan <b>NIET</b> worden verwijderd, {vertoning.film.titel.upper()} is in een vertoning opgenomen</red>")
+            print (f"<red>film kan <b>NIET</b> worden verwijderd, {film.titel.upper()} is in een vertoning opgenomen</red>")
             input()
             continue
 
@@ -218,6 +223,16 @@ def ft_film_verwijderen_by_MDB_id():
     
             if jn == "J":
                 print ("\n <red>WORDT VERWIJDERD!!</red>")
+                if os.path.exists(f"DATA/posters/{film.MDB_id}.png") :
+                    print ("Poster verwijderen!")
+                    sleep(1)
+                    os.remove(f"DATA/posters/{film.MDB_id}.png") 
+                if os.path.exists(f"DATA/discriptions/{film.MDB_id}.txt") :
+                    print("Discription verwijderen")
+                    sleep(1)
+                    os.remove(f"DATA/discriptions/{film.MDB_id}.txt")  
+                print ("Film uit DB verwijderen")
+                sleep(1)
                 dm.film_verwijderen_by_MDB_id(keuze)
                 sleep (1.5)
             else :
